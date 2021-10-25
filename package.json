@@ -7,12 +7,17 @@
     "postinstall": "tsc",
     "watch-node": "nodemon dist/index.js",
     "watch-ts": "tsc -w",
-    "deploy": "git add . && git commit -m Heroku && git push heroku master"
+    "deploy": "git add . && git commit -m Heroku && git push heroku master",
+    "dbCreateAssignmentsTable": "node -r dotenv/config dist/db/scripts/assignments/createTable.js",
+    "dbDeleteAssignmentsTable": "node -r dotenv/config dist/db/scripts/assignments/dropTable.js",
+    "dbPopulateAssignmentsTable": "node -r dotenv/config dist/db/scripts/assignments/populateTable.js",
+    "dbResetAssignmentsTable": "npm run dbDeleteAssignmentsTable && npm run dbCreateAssignmentsTable && npm run dbPopulateAssignmentsTable"
   },
   "dependencies": {
     "@types/pg": "^8.6.1",
     "cookie-parser": "~1.4.4",
     "debug": "~2.6.9",
+    "dotenv": "^10.0.0",
     "express": "~4.16.1",
     "http-errors": "~1.6.3",
     "jade": "~1.11.0",

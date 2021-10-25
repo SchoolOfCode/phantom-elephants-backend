@@ -2,6 +2,7 @@ import { Idb, IDataObject } from '../../dbTypes';
 
 const db: Idb = require('../../index');
 const data: Array<IDataObject> = require('../../dummyDataStructure');
+console.log(data);
 
 async function populateTable() {
   const scoredAssignmentQuery = `INSERT INTO assignments 

@@ -3,7 +3,7 @@ import { QueryResult, ClientBase } from 'pg';
 export interface Idb {
   query: (
     text: string,
-    params?: Array<string>,
+    params?: Array<any>,
     callback?: (err: Error, result: QueryResult<any>) => void
   ) => ClientBase['query'];
 }
@@ -33,7 +33,7 @@ interface IFeedback {
 
 interface IFeedbackObject {
   morning: IFeedback;
-  afternon: IFeedback;
+  afternoon: IFeedback;
 }
 
 interface IStudentWork {

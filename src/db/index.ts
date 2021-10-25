@@ -6,7 +6,7 @@ const pool: PoolClient = new Pool();
 module.exports = {
   query: (
     text: string,
-    params: Array<string>,
+    params: Array<any>,
     callback: (err: Error, result: QueryResult<any>) => void
   ) => {
     return pool.query(text, params, callback);

@@ -1,4 +1,4 @@
-[
+const data = [
   {
     id: 1,
     name: 'Bootcamp1',
@@ -632,3 +632,5 @@
     ],
   },
 ];
+
+module.exports = data;

@@ -1,4 +1,3 @@
-import { ClientBase, QueryResult } from 'pg';
 import { Idb } from '../../dbTypes';
 
 /* id, name, region, startDate */

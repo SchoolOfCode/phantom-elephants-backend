@@ -1,13 +1,13 @@
-
 import { Idb} from '../../dbTypes'
 
 const db:Idb = require ('../../index')
 
 
+
 async function deleteTable ():Promise<void> {
-   const sqlQuery = `DROP TABLE IF EXISTS bootcamps` 
+   const sqlQuery = `DROP TABLE IF EXISTS students` 
    const response = await  db.query(sqlQuery); 
-  console.log('bootcamps table deleted')
+  console.log('Students table deleted')
 
 }
 

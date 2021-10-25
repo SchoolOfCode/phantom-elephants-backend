@@ -10,31 +10,12 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const db = require('../../index');
-/*
-Writing an async function called createTable
-Write a SQL query string to create a table if it doesn't already exist
-Pass the SQL string into the db.query function and await the response
-Console.log if it was successful
-Outside of the function, call the createTable function
-*/
-// info,id, name, username,avatar
-function createTable() {
+function deleteTable() {
     return __awaiter(this, void 0, void 0, function* () {
-        const sqlQuery = `CREATE TABLE IF NOT EXISTS students (
-
-    id SERIAL PRIMARY KEY,
-    name TEXT,
-    username TEXT,
-    avatar TEXT
-);`;
-        try {
-            const response = yield db.query(sqlQuery);
-            console.log('Students table created');
-        }
-        catch (error) {
-            console.log(`${error.name}: ${error.message}`);
-        }
+        const sqlQuery = `DROP TABLE IF EXISTS students`;
+        const response = yield db.query(sqlQuery);
+        console.log('Students table deleted');
     });
 }
-createTable();
-//# sourceMappingURL=createTable.js.map
+deleteTable();
+//# sourceMappingURL=dropTable.js.map

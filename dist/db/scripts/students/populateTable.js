@@ -10,31 +10,25 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const db = require('../../index');
-/*
-Writing an async function called createTable
-Write a SQL query string to create a table if it doesn't already exist
-Pass the SQL string into the db.query function and await the response
-Console.log if it was successful
-Outside of the function, call the createTable function
-*/
+const data = require('../../dummyDataStructure');
 // info,id, name, username,avatar
-function createTable() {
+function populateTable() {
     return __awaiter(this, void 0, void 0, function* () {
-        const sqlQuery = `CREATE TABLE IF NOT EXISTS students (
-
-    id SERIAL PRIMARY KEY,
-    name TEXT,
-    username TEXT,
-    avatar TEXT
-);`;
-        try {
-            const response = yield db.query(sqlQuery);
-            console.log('Students table created');
+        for (let i = 0; i < data.length; i++) {
+            const { students } = data[i];
+            const sqlQuery = `INSERT INTO students
+       (name, username, avatar) 
+       VALUES ($1, $2, $3)
+       RETURNING *;`;
+            const response = yield db.query(sqlQuery, [
+                students[i].info.name,
+                students[i].info.username,
+                students[i].info.avatar,
+            ]);
+            console.log(response);
         }
-        catch (error) {
-            console.log(`${error.name}: ${error.message}`);
-        }
+        console.log('students table populated');
     });
 }
-createTable();
-//# sourceMappingURL=createTable.js.map
+populateTable();
+//# sourceMappingURL=populateTable.js.map

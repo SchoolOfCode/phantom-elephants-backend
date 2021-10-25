@@ -11,7 +11,7 @@ async function populateTable() {
    const {students} = data[i];
      const sqlQuery = `INSERT INTO students
        (name, username, avatar) 
-       VALUES ($1, $2, $3,)
+       VALUES ($1, $2, $3)
        RETURNING *;`;
        const response = await db.query(sqlQuery, [
         students[i].info.name,

@@ -10,7 +10,7 @@ const sqlQuery = `CREATE TABLE IF NOT EXISTS users (
 
     id SERIAL PRIMARY KEY,
     bootcampId INTEGER,
-    watchList TEXT,
+    watchList TEXT
 );` ;
 
 try {

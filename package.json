@@ -11,11 +11,24 @@
     "dbCreateBootcampsTable": "node -r dotenv/config dist/db/scripts/bootcamps/createTable.js",
     "dbDeleteBootcampsTable": "node -r dotenv/config dist/db/scripts/bootcamps/dropTable.js",
     "dbPopulateBootcampsTable": "node -r dotenv/config dist/db/scripts/bootcamps/populateTable.js",
+  
     "dbResetBootcampsTable": "npm run dbDeleteBootcampsTable && npm run dbCreateBootcampsTable && npm run dbPopulateBootcampsTable",
     "dbCreateAssignmentsTable": "node -r dotenv/config dist/db/scripts/assignments/createTable.js",
     "dbDeleteAssignmentsTable": "node -r dotenv/config dist/db/scripts/assignments/dropTable.js",
     "dbPopulateAssignmentsTable": "node -r dotenv/config dist/db/scripts/assignments/populateTable.js",
-    "dbResetAssignmentsTable": "npm run dbDeleteAssignmentsTable && npm run dbCreateAssignmentsTable && npm run dbPopulateAssignmentsTable"
+    "dbResetAssignmentsTable": "npm run dbDeleteAssignmentsTable && npm run dbCreateAssignmentsTable && npm run dbPopulateAssignmentsTable", 
+
+    "dbCreateStudentsTable": " node -r dotenv/config dist/db/scripts/students/createTable.js",
+    "dbDropStudentTable" : "node -r dotenv/config dist/db/scripts/students/dropTable.js",
+    "dbPopulateStudentTable" :"node -r dotenv/config dist/db/scripts/students/populateTable.js",
+
+    "dbResetStudentsTable": " npm run dbDropStudentTable && npm run dbCreateStudentsTable &&  npm run dbPopulateStudentTable ",
+
+    "dbCreateUsersTable": " node -r dotenv/config dist/db/scripts/users/createTable.js",
+    "dbDropUsersTable" : "node -r dotenv/config dist/db/scripts/users/dropTable.js",
+
+    "dbResetUsersTable": " npm run dbDropUsersTable && npm run dbCreateUsersTable"
+
   },
   "dependencies": {
     "@types/pg": "^8.6.1",

@@ -1,6 +1,4 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.default = [
+const data = [
     {
         id: 1,
         name: 'Bootcamp1',
@@ -604,4 +602,5 @@ exports.default = [
         ],
     },
 ];
+module.exports = data;
 //# sourceMappingURL=dummyDataStructure.js.map

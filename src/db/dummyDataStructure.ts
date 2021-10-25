@@ -1,4 +1,4 @@
-export default [
+const data = [
   {
     id: 1,
     name: 'Bootcamp1',
@@ -632,3 +632,5 @@ export default [
     ],
   },
 ];
+
+module.exports = data;

@@ -11,7 +11,6 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 Object.defineProperty(exports, "__esModule", { value: true });
 const db = require('../../index');
 const data = require('../../dummyDataStructure');
-console.log(data);
 function populateTable() {
     return __awaiter(this, void 0, void 0, function* () {
         const scoredAssignmentQuery = `INSERT INTO assignments 
@@ -22,57 +21,69 @@ function populateTable() {
             const { students } = bootcamp;
             for (let student of students) {
                 for (let day of student.work) {
-                    const recapResponse = yield db.query(scoredAssignmentQuery, [
-                        student.info.id,
-                        day.recapTasks.title,
-                        'recap',
-                        day.date,
-                        day.recapTasks.score,
-                    ]);
-                    console.log(recapResponse);
-                    for (let workshop of day.workshops) {
-                        const workshopResponse = yield db.query(scoredAssignmentQuery, [
+                    if (day.recapTasks) {
+                        const recapResponse = yield db.query(scoredAssignmentQuery, [
                             student.info.id,
-                            workshop.title,
-                            'workshop',
+                            day.recapTasks.title,
+                            'recap',
                             day.date,
-                            workshop.score,
+                            day.recapTasks.score,
                         ]);
-                        console.log(workshopResponse);
+                        console.log(recapResponse);
                     }
-                    const quizResponse = yield db.query(scoredAssignmentQuery, [
-                        student.info.id,
-                        day.quiz.title,
-                        'quiz',
-                        day.date,
-                        day.quiz.scoreAsString,
-                    ]);
-                    console.log(quizResponse);
+                    if (day.workshops) {
+                        for (let workshop of day.workshops) {
+                            const workshopResponse = yield db.query(scoredAssignmentQuery, [
+                                student.info.id,
+                                workshop.title,
+                                'workshop',
+                                day.date,
+                                workshop.score,
+                            ]);
+                            console.log(workshopResponse);
+                        }
+                    }
+                    if (day.quiz) {
+                        const quizResponse = yield db.query(scoredAssignmentQuery, [
+                            student.info.id,
+                            day.quiz.title,
+                            'quiz',
+                            day.date,
+                            day.quiz.scoreAsString,
+                        ]);
+                        console.log(quizResponse);
+                    }
                     const feedbackQuery = `INSERT INTO assignments
         (studentid, title, type, date, timeofday, experiencerating, comment)
         VALUES ($1, 'feedback', 'feedback', $2, $3, $4, $5)
         RETURNING *;`;
-                    const morningFeedbackQuery = yield db.query(feedbackQuery, [
-                        student.info.id,
-                        day.date,
-                        'morning',
-                        day.feedback.morning.experienceRating,
-                        day.feedback.morning.comment,
-                    ]);
-                    console.log(morningFeedbackQuery);
-                    const afternoonFeedbackQuery = yield db.query(feedbackQuery, [
-                        student.info.id,
-                        day.date,
-                        'afternoon',
-                        day.feedback.afternoon.experienceRating,
-                        day.feedback.afternoon.comment,
-                    ]);
-                    console.log(afternoonFeedbackQuery);
-                    const reflectionResponse = yield db.query(`INSERT INTO assignments 
+                    if (day.feedback.morning) {
+                        const morningFeedbackQuery = yield db.query(feedbackQuery, [
+                            student.info.id,
+                            day.date,
+                            'morning',
+                            day.feedback.morning.experienceRating,
+                            day.feedback.morning.comment,
+                        ]);
+                        console.log(morningFeedbackQuery);
+                    }
+                    if (day.feedback.afternoon) {
+                        const afternoonFeedbackQuery = yield db.query(feedbackQuery, [
+                            student.info.id,
+                            day.date,
+                            'afternoon',
+                            day.feedback.afternoon.experienceRating,
+                            day.feedback.afternoon.comment,
+                        ]);
+                        console.log(afternoonFeedbackQuery);
+                    }
+                    if (day.reflection) {
+                        const reflectionResponse = yield db.query(`INSERT INTO assignments 
         (studentid, title, type, date, content)
         VALUES ($1, 'reflection', 'reflection', $2, $3)
         RETURNING *;`, [student.info.id, day.date, day.reflection]);
-                    console.log(reflectionResponse);
+                        console.log(reflectionResponse);
+                    }
                 }
             }
         }

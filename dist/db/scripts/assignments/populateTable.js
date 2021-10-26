@@ -10,83 +10,116 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const db = require('../../index');
-const data = require('../../dummyDataStructure');
+const { data } = require('../../data');
 function populateTable() {
+    return __awaiter(this, void 0, void 0, function* () {
+        for (let bootcamp of data) {
+            const { students } = bootcamp;
+            for (let student of students) {
+                try {
+                    const response = yield addStudentWorkToDatabase(student);
+                    console.log(response);
+                }
+                catch (error) {
+                    console.log(`Couldn't add student to database`);
+                }
+            }
+        }
+    });
+}
+function addStudentWorkToDatabase(student) {
+    return __awaiter(this, void 0, void 0, function* () {
+        student.work.forEach((day) => __awaiter(this, void 0, void 0, function* () {
+            const assignments = createAssignmentList(day);
+            if (assignments) {
+                const scoredAssignmentsResponse = yield populateScoredAssignments(student.info.id, day.date, assignments);
+                console.log(scoredAssignmentsResponse);
+            }
+            try {
+                if (day.feedback.length > 0) {
+                    const feedbackResponse = yield populateFeedback(student.info.id, day.date, day.feedback);
+                    console.log(feedbackResponse);
+                }
+            }
+            catch (error) {
+                console.log(`Couldn't add feedback to database`);
+            }
+            if (day.reflection) {
+                const reflectionResponse = yield populateReflection(student.info.id, day.date, day.reflection);
+                console.log(reflectionResponse);
+            }
+        }));
+        return `All work for ${student.info.id} added to database`;
+    });
+}
+function createAssignmentList({ recapTask, workshops, quiz, }) {
+    console.log(typeof workshops);
+    let assignments;
+    if (workshops) {
+        assignments = [...workshops];
+    }
+    if (recapTask) {
+        assignments = [...assignments, recapTask];
+    }
+    if (quiz) {
+        assignments = [...assignments, quiz];
+    }
+    return assignments;
+}
+function populateScoredAssignments(student, date, assignments) {
     return __awaiter(this, void 0, void 0, function* () {
         const scoredAssignmentQuery = `INSERT INTO assignments 
   (studentid, title, type, date, score)
   VALUES ($1, $2, $3, $4, $5)
   RETURNING *;`;
-        for (let bootcamp of data) {
-            const { students } = bootcamp;
-            for (let student of students) {
-                for (let day of student.work) {
-                    if (day.recapTasks) {
-                        const recapResponse = yield db.query(scoredAssignmentQuery, [
-                            student.info.id,
-                            day.recapTasks.title,
-                            'recap',
-                            day.date,
-                            day.recapTasks.score,
-                        ]);
-                        console.log(recapResponse);
-                    }
-                    if (day.workshops) {
-                        for (let workshop of day.workshops) {
-                            const workshopResponse = yield db.query(scoredAssignmentQuery, [
-                                student.info.id,
-                                workshop.title,
-                                'workshop',
-                                day.date,
-                                workshop.score,
-                            ]);
-                            console.log(workshopResponse);
-                        }
-                    }
-                    if (day.quiz) {
-                        const quizResponse = yield db.query(scoredAssignmentQuery, [
-                            student.info.id,
-                            day.quiz.title,
-                            'quiz',
-                            day.date,
-                            day.quiz.scoreAsString,
-                        ]);
-                        console.log(quizResponse);
-                    }
-                    const feedbackQuery = `INSERT INTO assignments
-        (studentid, title, type, date, timeofday, experiencerating, comment)
-        VALUES ($1, 'feedback', 'feedback', $2, $3, $4, $5)
-        RETURNING *;`;
-                    if (day.feedback.morning) {
-                        const morningFeedbackQuery = yield db.query(feedbackQuery, [
-                            student.info.id,
-                            day.date,
-                            'morning',
-                            day.feedback.morning.experienceRating,
-                            day.feedback.morning.comment,
-                        ]);
-                        console.log(morningFeedbackQuery);
-                    }
-                    if (day.feedback.afternoon) {
-                        const afternoonFeedbackQuery = yield db.query(feedbackQuery, [
-                            student.info.id,
-                            day.date,
-                            'afternoon',
-                            day.feedback.afternoon.experienceRating,
-                            day.feedback.afternoon.comment,
-                        ]);
-                        console.log(afternoonFeedbackQuery);
-                    }
-                    if (day.reflection) {
-                        const reflectionResponse = yield db.query(`INSERT INTO assignments 
-        (studentid, title, type, date, content)
-        VALUES ($1, 'reflection', 'reflection', $2, $3)
-        RETURNING *;`, [student.info.id, day.date, day.reflection]);
-                        console.log(reflectionResponse);
-                    }
-                }
-            }
+        try {
+            assignments.forEach((assignment) => __awaiter(this, void 0, void 0, function* () {
+                const _response = yield db.query(scoredAssignmentQuery, [
+                    student,
+                    assignment.title,
+                    assignment.type,
+                    date,
+                    assignment.score,
+                ]);
+            }));
+            return `Scored assignments for student ${student} on ${date} completed`;
         }
+        catch (error) {
+            return 'No assignments to populate';
+        }
+    });
+}
+function populateFeedback(student, date, feedback) {
+    return __awaiter(this, void 0, void 0, function* () {
+        try {
+            feedback.forEach((submission) => __awaiter(this, void 0, void 0, function* () {
+                const _response = yield db.query(`INSERT INTO assignments
+    (studentid, title, type, date, timeofday, experiencerating, comment)
+    VALUES ($1, $2, $3, $4, $5, $6, $7)
+    RETURNING *;`, [
+                    student,
+                    `${submission.timeOfDay}: ${date}`,
+                    submission.type,
+                    date,
+                    submission.timeOfDay,
+                    submission.experienceRating,
+                    submission.comment,
+                ]);
+            }));
+            return `Feedback for student ${student} on ${date} completed`;
+        }
+        catch (error) {
+            return 'No feedback to populate';
+        }
+    });
+}
+function populateReflection(student, date, reflection) {
+    return __awaiter(this, void 0, void 0, function* () {
+        const _response = yield db.query(`INSERT INTO assignments 
+  (studentid, title, type, date, content)
+  VALUES ($1, $2, $3, $4, $5)
+  RETURNING *;`, [student, `Reflection - ${date}`, reflection.type, date, reflection.content]);
+        return `Reflection for student ${student} on ${date} completed`;
     });
 }
 populateTable();

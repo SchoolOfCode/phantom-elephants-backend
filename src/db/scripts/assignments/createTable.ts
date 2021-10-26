@@ -23,8 +23,8 @@ async function createTable(): Promise<void> {
   const sqlQuery = `CREATE TABLE IF NOT EXISTS assignments (
     id SERIAL PRIMARY KEY,
     studentid INTEGER NOT NULL,
-    title TEXT NOT NULL,
-    type TEXT NOT NULL,
+    title TEXT,
+    type TEXT,
     date DATE NOT NULL,
     url TEXT,
     score TEXT,

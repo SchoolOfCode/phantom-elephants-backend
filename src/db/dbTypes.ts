@@ -1,13 +1,12 @@
-import { QueryResult, ClientBase } from 'pg';
+import { QueryResult } from 'pg';
 
 export interface Idb {
   query: (
     text: string,
     params?: Array<any>,
     callback?: (err: Error, result: QueryResult<any>) => void
-  ) => ClientBase['query'];
+  ) => QueryResult<any>;
 }
-
 interface IStudentInfo {
   id: number;
   name: string;
@@ -15,37 +14,35 @@ interface IStudentInfo {
   avatar: string;
 }
 
-interface IGithubTasks {
+export interface IScoredAssignment {
   title: string;
   score: string;
+  type: string;
+  percentage?: number;
 }
 
-interface IQuiz {
-  title: string;
-  scoreAsString: string;
-  percentage: number;
-}
-
-interface IFeedback {
+export interface IFeedback {
   experienceRating?: number;
   comment?: string;
+  type: string;
+  timeOfDay: string;
 }
 
-interface IFeedbackObject {
-  morning: IFeedback;
-  afternoon: IFeedback;
+export interface IReflection {
+  type: string;
+  content: string;
 }
 
-interface IStudentWork {
+export interface IStudentWork {
   date: string;
   week: number;
   day: number;
   didAttend: boolean;
-  recapTasks: IGithubTasks;
-  workshops: Array<IGithubTasks>;
-  quiz: IQuiz;
-  feedback: IFeedbackObject;
-  reflection: string;
+  recapTask: IScoredAssignment | null;
+  workshops: Array<IScoredAssignment>;
+  quiz: IScoredAssignment | null;
+  feedback: Array<IFeedback>;
+  reflection: IReflection;
 }
 
 interface IStudentObject {

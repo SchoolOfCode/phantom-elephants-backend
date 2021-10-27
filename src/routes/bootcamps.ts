@@ -24,47 +24,44 @@ Initialise a new router
 Export  router
 */
 
-const {getBootcampById, getAllBootcamps} : {getBootcampById:any, getAllBootcamps:any} = require('../models/bootcamps')
-
+const {
+  getBootcampById,
+  getAllBootcamps,
+}: {
+  getBootcampById: any;
+  getAllBootcamps: any;
+} = require("../models/bootcamps");
 
 var express = require("express");
 var router = express.Router();
 
-
-//get bootcamp by id 
-
-router.get("/:id", async (req:any, res:any) => {
-  const {id} = req.params;
-  console.log(id);
-  
+//get bootcamp by id
+router.get("/:id", async (req: any, res: any) => {
+  const { id } = req.params;
+  console.log("get bootcamp by => ", id);
   const data = await getBootcampById(id);
   res.json({
     success: true,
-    message: "Here are the bootcamps by id",
+    message: "Here are the bootcamps by " + id,
     payload: data,
-  })
-  
-  })
-
-  
-router.get("/", async (req:any, res:any) => {
-const data = getAllBootcamps()
-res.json({
-  success: true,
-  message: "Here are the bootcamps",
-  payload: data,
-})
+  });
 });
 
-
-
+//get all bootcamp
+router.get("/", async (req: any, res: any) => {
+  const data = await getAllBootcamps();
+  res.json({
+    success: true,
+    message: "Here are the bootcamps",
+    payload: data,
+  });
+});
 
 // const {getAllStudents:string, getStudentsById:any} = require('../models/students')
 
-// // get students 
+// // get students
 
-
-// // get by students id 
+// // get by students id
 // //   GET by id
 // router.get("/:id", async (req:any, res:any) => {
 //     const { id } = req.params;
@@ -75,7 +72,5 @@ res.json({
 //       payload: data,
 //     });
 //   });
-
-
 
 module.exports = router;

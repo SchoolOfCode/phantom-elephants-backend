@@ -10,7 +10,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const db = require('../../index');
-const data = require('../../dummyDataStructure');
+const { data } = require('../../data');
 function populateTable() {
     return __awaiter(this, void 0, void 0, function* () {
         const sqlQuery = `INSERT INTO bootcamps 

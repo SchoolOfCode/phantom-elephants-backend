@@ -1,6 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 const express = require("express");
+const bootcampRouter = require('./routes/bootcamps');
 class App {
     constructor() {
         this.express = express();
@@ -11,6 +12,7 @@ class App {
         router.get('/', (req, res) => {
             res.json({ message: 'Go away, world!' });
         });
+        this.express.use('/bootcamps', bootcampRouter);
         this.express.use('/', router);
     }
 }

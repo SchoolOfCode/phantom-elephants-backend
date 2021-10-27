@@ -9,21 +9,25 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const { query } = require('../db/dummyDataStructure');
+exports.getAllBootcamps = exports.getBootcampById = void 0;
+const { query } = require('../db/index');
 // import interface for models
-//get bootcamp by id 
+//get bootcamp by id
 function getBootcampById(id) {
     return __awaiter(this, void 0, void 0, function* () {
-        const data = yield query("SELECT * FROM bootcamps WHERE id = $1", [id]);
+        const data = yield query('SELECT * FROM bootcamps WHERE id = $1', [id]);
         return data.rows;
     });
 }
+exports.getBootcampById = getBootcampById;
 function getAllBootcamps() {
     return __awaiter(this, void 0, void 0, function* () {
-        const data = yield query("SELECT * FROM bootcamps");
+        console.log('Hello from the get bootcamps model');
+        const data = yield query('SELECT * FROM bootcamps');
         return data.rows;
     });
 }
+exports.getAllBootcamps = getAllBootcamps;
 // // gets all students names from all columns
 // async function getAllStudents() {
 //     const data = await query("SELECT * FROM students;");
@@ -32,8 +36,8 @@ function getAllBootcamps() {
 // async function getStudentsById(id:number) {
 //     const data = await query("SELECT * FROM students WHERE id = $1", [id]);
 //     return data.rows;
-exports.default = {
-    getBootcampById,
-    getAllBootcamps
-};
+// export default {
+//   getBootcampById,
+//   getAllBootcamps,
+// };
 //# sourceMappingURL=bootcamps.js.map

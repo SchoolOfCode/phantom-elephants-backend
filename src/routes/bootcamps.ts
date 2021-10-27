@@ -30,29 +30,30 @@ const {
 }: {
   getBootcampById: any;
   getAllBootcamps: any;
-} = require("../models/bootcamps");
+} = require('../models/bootcamps');
 
-var express = require("express");
+var express = require('express');
 var router = express.Router();
 
 //get bootcamp by id
-router.get("/:id", async (req: any, res: any) => {
+router.get('/:id', async (req: any, res: any) => {
   const { id } = req.params;
-  console.log("get bootcamp by => ", id);
+  console.log('get bootcamp by => ', id);
   const data = await getBootcampById(id);
   res.json({
     success: true,
-    message: "Here are the bootcamps by " + id,
+    message: 'Here are the bootcamps by ' + id,
     payload: data,
   });
 });
 
 //get all bootcamp
-router.get("/", async (req: any, res: any) => {
+router.get('/', async (req: any, res: any) => {
+  console.log('GET bootcamps');
   const data = await getAllBootcamps();
   res.json({
     success: true,
-    message: "Here are the bootcamps",
+    message: 'Here are the bootcamps',
     payload: data,
   });
 });

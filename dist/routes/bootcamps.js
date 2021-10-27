@@ -32,31 +32,33 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
-const { getBootcampById, getAllBootcamps } = require('../models/bootcamps');
-var express = require("express");
+const { getBootcampById, getAllBootcamps, } = require('../models/bootcamps');
+var express = require('express');
 var router = express.Router();
-//get bootcamp by id 
-router.get("/:id", (req, res) => __awaiter(this, void 0, void 0, function* () {
+//get bootcamp by id
+router.get('/:id', (req, res) => __awaiter(this, void 0, void 0, function* () {
     const { id } = req.params;
-    console.log(id);
+    console.log('get bootcamp by => ', id);
     const data = yield getBootcampById(id);
     res.json({
         success: true,
-        message: "Here are the bootcamps by id",
+        message: 'Here are the bootcamps by ' + id,
         payload: data,
     });
 }));
-router.get("/", (req, res) => __awaiter(this, void 0, void 0, function* () {
-    const data = getAllBootcamps();
+//get all bootcamp
+router.get('/', (req, res) => __awaiter(this, void 0, void 0, function* () {
+    console.log('GET bootcamps');
+    const data = yield getAllBootcamps();
     res.json({
         success: true,
-        message: "Here are the bootcamps",
+        message: 'Here are the bootcamps',
         payload: data,
     });
 }));
 // const {getAllStudents:string, getStudentsById:any} = require('../models/students')
-// // get students 
-// // get by students id 
+// // get students
+// // get by students id
 // //   GET by id
 // router.get("/:id", async (req:any, res:any) => {
 //     const { id } = req.params;

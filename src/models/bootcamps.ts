@@ -1,14 +1,15 @@
-const { query } = require("../db/index");
+const { query } = require('../db/index');
 // import interface for models
 
 //get bootcamp by id
-async function getBootcampById(id: number) {
-  const data = await query("SELECT * FROM bootcamps WHERE id = $1", [id]);
+export async function getBootcampById(id: number) {
+  const data = await query('SELECT * FROM bootcamps WHERE id = $1', [id]);
   return data.rows;
 }
 
-async function getAllBootcamps() {
-  const data = await query("SELECT * FROM bootcamps");
+export async function getAllBootcamps() {
+  console.log('Hello from the get bootcamps model');
+  const data = await query('SELECT * FROM bootcamps');
   return data.rows;
 }
 
@@ -22,7 +23,7 @@ async function getAllBootcamps() {
 //     const data = await query("SELECT * FROM students WHERE id = $1", [id]);
 //     return data.rows;
 
-export default {
-  getBootcampById,
-  getAllBootcamps,
-};
+// export default {
+//   getBootcampById,
+//   getAllBootcamps,
+// };

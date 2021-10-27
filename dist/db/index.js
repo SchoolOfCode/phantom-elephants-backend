@@ -2,11 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 const { Pool } = require('pg');
 const pool = new Pool({
-    host: process.env.HOST,
-    port: process.env.PORT,
-    database: process.env.DATABASE,
-    user: process.env.PGUSER,
-    password: process.env.PGPASSWORD,
+    connectionString: process.env.PGURL,
     ssl: { rejectUnauthorized: false },
 });
 module.exports = {

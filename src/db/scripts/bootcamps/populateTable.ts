@@ -1,7 +1,7 @@
 import { Idb, IDataObject } from '../../dbTypes';
 
 const db: Idb = require('../../index');
-const data: Array<IDataObject> = require('../../dummyDataStructure');
+const { data }: { data: Array<IDataObject> } = require('../../data');
 
 async function populateTable() {
   const sqlQuery = `INSERT INTO bootcamps 

@@ -14,12 +14,8 @@ async function populateTable() {
   for (let bootcamp of data) {
     const { students } = bootcamp;
     for (let student of students) {
-      try {
-        const response = await addStudentWorkToDatabase(student);
-        console.log(response);
-      } catch (error) {
-        console.log(`Couldn't add student to database`);
-      }
+      const response = await addStudentWorkToDatabase(student);
+      console.log(response);
     }
   }
 }
@@ -29,34 +25,27 @@ async function addStudentWorkToDatabase(student) {
     const assignments = createAssignmentList(day);
 
     if (assignments) {
-      const scoredAssignmentsResponse = await populateScoredAssignments(
+      const _scoredAssignmentsResponse = await populateScoredAssignments(
         student.info.id,
         day.date,
         assignments
       );
-      console.log(scoredAssignmentsResponse);
     }
 
-    try {
-      if (day.feedback.length > 0) {
-        const feedbackResponse = await populateFeedback(
-          student.info.id,
-          day.date,
-          day.feedback
-        );
-        console.log(feedbackResponse);
-      }
-    } catch (error) {
-      console.log(`Couldn't add feedback to database`);
+    if (day.feedback) {
+      const _feedbackResponse = await populateFeedback(
+        student.info.id,
+        day.date,
+        day.feedback
+      );
     }
 
     if (day.reflection) {
-      const reflectionResponse = await populateReflection(
+      const _reflectionResponse = await populateReflection(
         student.info.id,
         day.date,
         day.reflection
       );
-      console.log(reflectionResponse);
     }
   });
   return `All work for ${student.info.id} added to database`;
@@ -71,7 +60,6 @@ function createAssignmentList({
   workshops: Array<IScoredAssignment>;
   quiz: IScoredAssignment | null;
 }): Array<IScoredAssignment> {
-  console.log(typeof workshops);
   let assignments: Array<IScoredAssignment>;
 
   if (workshops) {
@@ -99,21 +87,17 @@ async function populateScoredAssignments(
   VALUES ($1, $2, $3, $4, $5)
   RETURNING *;`;
 
-  try {
-    assignments.forEach(async (assignment) => {
-      const _response = await db.query(scoredAssignmentQuery, [
-        student,
-        assignment.title,
-        assignment.type,
-        date,
-        assignment.score,
-      ]);
-    });
+  assignments.forEach(async (assignment) => {
+    const _response = await db.query(scoredAssignmentQuery, [
+      student,
+      assignment.title,
+      assignment.type,
+      date,
+      assignment.score,
+    ]);
+  });
 
-    return `Scored assignments for student ${student} on ${date} completed`;
-  } catch (error) {
-    return 'No assignments to populate';
-  }
+  return `Scored assignments for student ${student} on ${date} completed`;
 }
 
 async function populateFeedback(
@@ -121,29 +105,25 @@ async function populateFeedback(
   date: string,
   feedback: Array<IFeedback>
 ): Promise<string> {
-  try {
-    feedback.forEach(async (submission) => {
-      const _response = await db.query(
-        `INSERT INTO assignments
+  feedback.forEach(async (submission) => {
+    const _response = await db.query(
+      `INSERT INTO assignments
     (studentid, title, type, date, timeofday, experiencerating, comment)
     VALUES ($1, $2, $3, $4, $5, $6, $7)
     RETURNING *;`,
-        [
-          student,
-          `${submission.timeOfDay}: ${date}`,
-          submission.type,
-          date,
-          submission.timeOfDay,
-          submission.experienceRating,
-          submission.comment,
-        ]
-      );
-    });
+      [
+        student,
+        `${submission.timeOfDay}: ${date}`,
+        submission.type,
+        date,
+        submission.timeOfDay,
+        submission.experienceRating,
+        submission.comment,
+      ]
+    );
+  });
 
-    return `Feedback for student ${student} on ${date} completed`;
-  } catch (error) {
-    return 'No feedback to populate';
-  }
+  return `Feedback for student ${student} on ${date} completed`;
 }
 
 async function populateReflection(

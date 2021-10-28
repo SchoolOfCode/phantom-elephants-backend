@@ -2,7 +2,7 @@ import { PoolClient, QueryResult } from 'pg';
 
 const { Pool } = require('pg');
 const pool: PoolClient = new Pool({
-  connectionString: process.env.PGURL,
+  connectionString: process.env.DATABASE_URL,
   ssl: { rejectUnauthorized: false },
 });
 

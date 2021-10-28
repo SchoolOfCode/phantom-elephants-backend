@@ -1,3 +1,6 @@
+const express = require("express");
+const Router = express.Router();
+
 const { query } = require('../db/index');
 // import interface for models
 
@@ -27,3 +30,35 @@ export async function getAllBootcamps() {
 //   getBootcampById,
 //   getAllBootcamps,
 // };
+
+
+// need to add table name + insert values + response details
+async function addBootcamp(bootcamper) {
+	const sqlString = `INSERT INTO bootcamps (name, region, startDate) VALUES ($1,$2,$3) RETURNING *;`;
+
+	const data = await query(sqlString, [
+		bootcamper.name,
+		bootcamper.region,
+		bootcamper.startDate
+	]);
+  return data.rows[0].name;
+
+
+}
+// need to add table name + insert values into sql string + await query array
+async function updateBootcamp(name, region, startDate, bootcamper, id) {
+	const sqlString = `UPDATE bootcamps  SET name = '$1', region='$2' startDate= $3' WHERE id=${id} RETURNING *;`;
+	console.log(bootcamper);
+	const data = await query(sqlString, [
+    bootcamper.name,
+  	bootcamper.region,
+		bootcamper.startDate]);
+	return data.rows[0];
+}
+
+async function deleteBootcamp({id}) {
+	const sqlString = `DELETE FROM bootcamps  WHERE id='${id}' RETURNING *;`;
+	const data = await query(sqlString);
+	return data.rows[0];
+}
+module.exports = {getAllBootcamps, getBootcampById, addBootcamp, updateBootcamp, deleteBootcamp };

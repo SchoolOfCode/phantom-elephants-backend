@@ -58,6 +58,12 @@ router.get('/', async (req: any, res: any) => {
   });
 });
 
+
+
+
+
+
+
 // const {getAllStudents:string, getStudentsById:any} = require('../models/students')
 
 // // get students

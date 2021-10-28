@@ -62,22 +62,4 @@ router.get('/', async (req: any, res: any) => {
 
 
 
-
-
-// const {getAllStudents:string, getStudentsById:any} = require('../models/students')
-
-// // get students
-
-// // get by students id
-// //   GET by id
-// router.get("/:id", async (req:any, res:any) => {
-//     const { id } = req.params;
-//     const data = await getStudentsById(id);
-//     res.json({
-//       success: true,
-//       message: `Search result for student with id: ${id}`,
-//       payload: data,
-//     });
-//   });
-
 module.exports = router;

@@ -9,12 +9,22 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 const axios = require('axios').default;
 const url = 'https://api.github.com';
-const organisation = 'SchoolOfCode';
-const userType = 'orgs';
+const repositoryOwner = 'onlyasmalllizard';
+const ownerType = 'orgs';
 const authString = `token ${process.env.GITHUB_API_KEY}`;
 function fetchRepos() {
     return __awaiter(this, void 0, void 0, function* () {
-        const requestUrl = `${url}/${userType}/${organisation}/repos`;
+        const requestUrl = `${url}/${ownerType}/${repositoryOwner}/repos`;
+        const response = yield axios.get(requestUrl, {
+            method: 'GET',
+            headers: { Authorization: authString },
+        });
+        return response;
+    });
+}
+function fetchTestResultFromCommit(repoName, commitRef) {
+    return __awaiter(this, void 0, void 0, function* () {
+        const requestUrl = `${url}/repos/${repositoryOwner}/${repoName}/commits/${commitRef}/check-runs`;
         const response = yield axios.get(requestUrl, {
             method: 'GET',
             headers: { Authorization: authString },
@@ -22,5 +32,5 @@ function fetchRepos() {
         console.log(response);
     });
 }
-fetchRepos();
-//# sourceMappingURL=fetchFromGithub.js.map
+console.log(fetchTestResultFromCommit('github-tests', '9b09dd4'));
+//# sourceMappingURL=fetchData.js.map

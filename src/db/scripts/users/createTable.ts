@@ -8,7 +8,7 @@ async function createTable(): Promise<void> {
   const sqlQuery = `CREATE TABLE IF NOT EXISTS users (
 
     id SERIAL PRIMARY KEY,
-    bootcampId INTEGER,
+    bootcampid INTEGER,
     watchList TEXT
 );`;
 

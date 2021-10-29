@@ -18,7 +18,8 @@ async function createTable(): Promise<void> {
     id SERIAL PRIMARY KEY,
     name TEXT,
     username TEXT,
-    avatar TEXT
+    avatar TEXT,
+    bootcampid INTEGER
 );`;
 
   try {

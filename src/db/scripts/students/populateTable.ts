@@ -7,15 +7,17 @@ const { data }: { data: Array<IDataObject> } = require('../../data');
 
 async function populateTable() {
   for (let i = 0; i < data.length; i++) {
-    const { students } = data[i];
+    const { students, id } = data[i];
+  
     const sqlQuery = `INSERT INTO students
-       (name, username, avatar) 
-       VALUES ($1, $2, $3)
+       (name, username, avatar,bootcampid) 
+       VALUES ($1, $2, $3, $4)
        RETURNING *;`;
     const response = await db.query(sqlQuery, [
       students[i].info.name,
       students[i].info.username,
       students[i].info.avatar,
+     id 
     ]);
 
     console.log(response);

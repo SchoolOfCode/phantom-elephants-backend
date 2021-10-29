@@ -1,7 +1,13 @@
 import * as express from 'express';
+import { response } from 'express';
+const Router = express.Router();
 const cors = require('cors');
 
 const bootcampRouter = require('./routes/bootcamps');
+const recordRouter  = require('./routes/records')
+// const studentRouter = require('./routes/students')
+const assignmentsRouter = require('./routes/assignments')
+const userRouter = require('./routes/user')
 
 const app = express();
 
@@ -9,7 +15,17 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cors({ origin: '*' }));
 
+// console.log(bootcampRouter);
+// console.log(recordRouter);
+// console.log(assignmentsRouter);
+// console.log(userRouter);
+
+
 app.use('/bootcamps', bootcampRouter);
+app.use('/records', recordRouter);
+app.use ('/assignments', assignmentsRouter);
+app.use('/user', userRouter);
+// app.use('/students',studentRouter);
 
 app.get('/', (req, res) => {
   res.json({ message: 'Go away, world!' });

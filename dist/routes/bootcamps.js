@@ -19,8 +19,6 @@ Initialise a new router
 - get student by id
 - get student work (object )?
 - get user by id
-
-
 Export  router
 */
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
@@ -32,11 +30,11 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
-const { getBootcampById, getAllBootcamps, } = require('../models/bootcamps');
+const { getBootcampById, getAllBootcamps, addBootcamp, updateBootcamp, deleteBootcamp, } = require('../models/bootcamps');
 var express = require('express');
-var router = express.Router();
+var bootcampRouter = express.Router();
 //get bootcamp by id
-router.get('/:id', (req, res) => __awaiter(this, void 0, void 0, function* () {
+bootcampRouter.get('/:id', (req, res) => __awaiter(this, void 0, void 0, function* () {
     const { id } = req.params;
     console.log('get bootcamp by => ', id);
     const data = yield getBootcampById(id);
@@ -47,7 +45,7 @@ router.get('/:id', (req, res) => __awaiter(this, void 0, void 0, function* () {
     });
 }));
 //get all bootcamp
-router.get('/', (req, res) => __awaiter(this, void 0, void 0, function* () {
+bootcampRouter.get('/', (req, res) => __awaiter(this, void 0, void 0, function* () {
     console.log('GET bootcamps');
     const data = yield getAllBootcamps();
     res.json({
@@ -56,18 +54,34 @@ router.get('/', (req, res) => __awaiter(this, void 0, void 0, function* () {
         payload: data,
     });
 }));
-// const {getAllStudents:string, getStudentsById:any} = require('../models/students')
-// // get students
-// // get by students id
-// //   GET by id
-// router.get("/:id", async (req:any, res:any) => {
-//     const { id } = req.params;
-//     const data = await getStudentsById(id);
-//     res.json({
-//       success: true,
-//       message: `Search result for student with id: ${id}`,
-//       payload: data,
-//     });
-//   });
-module.exports = router;
+// add bootcamp
+bootcampRouter.post("/", (req, res) => __awaiter(this, void 0, void 0, function* () {
+    const { body } = req;
+    const response = yield addBootcamp(body);
+    res.json({
+        success: true,
+        message: "Bootcamp added successfully",
+        payload: response,
+    });
+}));
+// update bootcamp
+bootcampRouter.put("/", (req, res) => __awaiter(this, void 0, void 0, function* () {
+    const { body } = req;
+    const response = yield updateBootcamp(body);
+    res.json({
+        success: true,
+        message: "bootcamp updated successfully",
+        payload: response,
+    });
+}));
+// delete bootcamp
+bootcampRouter.delete("/", (req, res) => __awaiter(this, void 0, void 0, function* () {
+    const data = yield deleteBootcamp;
+    res.json({
+        success: true,
+        message: "bootcamp deleted successfully",
+        payload: data,
+    });
+}));
+module.exports = bootcampRouter;
 //# sourceMappingURL=bootcamps.js.map

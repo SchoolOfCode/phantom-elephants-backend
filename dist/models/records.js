@@ -1,4 +1,5 @@
 "use strict";
+// INNER joins for tables 
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
@@ -9,24 +10,13 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const db = require('../../index');
-// id, bootcampId, watchList (array of students names)
-function createTable() {
+exports.getAllStudentRecords = void 0;
+const { query } = require('../db/index');
+function getAllStudentRecords() {
     return __awaiter(this, void 0, void 0, function* () {
-        const sqlQuery = `CREATE TABLE IF NOT EXISTS users (
-
-    id SERIAL PRIMARY KEY,
-    bootcampid INTEGER,
-    watchList TEXT
-);`;
-        try {
-            const response = yield db.query(sqlQuery);
-            console.log('Users table created');
-        }
-        catch (error) {
-            console.log(`${error.name}: ${error.message}`);
-        }
+        const data = yield query('SELECT * FROM ((bootcamps INNER JOIN students ON bootcamps.id = students.bootcampid) INNER JOIN assignments ON students.id = assignments.studentid);');
+        return data.rows;
     });
 }
-createTable();
-//# sourceMappingURL=createTable.js.map
+exports.getAllStudentRecords = getAllStudentRecords;
+//# sourceMappingURL=records.js.map

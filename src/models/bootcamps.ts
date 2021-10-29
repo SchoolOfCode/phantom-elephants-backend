@@ -1,4 +1,6 @@
-const { query } = require('../db/index');
+
+
+ const { query } = require('../db/index');
 // import interface for models
 
 //get bootcamp by id
@@ -27,3 +29,34 @@ export async function getAllBootcamps() {
 //   getBootcampById,
 //   getAllBootcamps,
 // };
+
+
+// need to add table name + insert values + response details
+export async function addBootcamp(bootcamp) {
+	const sqlString = `INSERT INTO bootcamps (name, region, startDate) VALUES ($1,$2,$3) RETURNING *;`;
+
+	const data = await query(sqlString, [
+		bootcamp.name,
+		bootcamp.region,
+		bootcamp.startDate
+	]);
+  return data.rows[0].name;
+
+
+}
+// need to add table name + insert values into sql string + await query array
+export async function updateBootcamp(bootcamp, id) {
+	const sqlString = `UPDATE bootcamps  SET name = '$1', region='$2' startDate= $3' WHERE id=${id} RETURNING *;`;
+	console.log(bootcamp);
+	const data = await query(sqlString, [
+    bootcamp.name,
+  	bootcamp.region,
+	bootcamp.startDate]);
+	return data.rows[0];
+}
+
+export async function deleteBootcamp({id}) {
+	const sqlString = `DELETE FROM bootcamps  WHERE id='${id}' RETURNING *;`;
+	const data = await query(sqlString);
+	return data.rows[0];
+}

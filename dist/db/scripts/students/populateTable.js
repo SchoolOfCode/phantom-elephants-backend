@@ -15,15 +15,16 @@ const { data } = require('../../data');
 function populateTable() {
     return __awaiter(this, void 0, void 0, function* () {
         for (let i = 0; i < data.length; i++) {
-            const { students } = data[i];
+            const { students, id } = data[i];
             const sqlQuery = `INSERT INTO students
-       (name, username, avatar) 
-       VALUES ($1, $2, $3)
+       (name, username, avatar,bootcampid) 
+       VALUES ($1, $2, $3, $4)
        RETURNING *;`;
             const response = yield db.query(sqlQuery, [
                 students[i].info.name,
                 students[i].info.username,
                 students[i].info.avatar,
+                id
             ]);
             console.log(response);
         }

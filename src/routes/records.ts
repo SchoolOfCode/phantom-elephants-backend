@@ -12,4 +12,4 @@ recordRouter.get("/", async (req:any, res:any) => {
     });
   });
 
-export default recordRouter;
+module.exports = recordRouter

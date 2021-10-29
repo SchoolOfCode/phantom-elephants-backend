@@ -18,7 +18,8 @@ const sqlQuery = `CREATE TABLE IF NOT EXISTS students (
     id SERIAL PRIMARY KEY,
     name TEXT,
     username TEXT,
-    avatar TEXT
+    avatar TEXT,
+    bootcampid INTEGER
 );` ;
 
 try {

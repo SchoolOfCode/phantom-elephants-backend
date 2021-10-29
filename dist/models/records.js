@@ -14,7 +14,7 @@ exports.getAllStudentRecords = void 0;
 const { query } = require('../db/index');
 function getAllStudentRecords() {
     return __awaiter(this, void 0, void 0, function* () {
-        const data = yield query('SELECT * FROM ((bootcamps INNER JOIN students ON bootcamps.id = students.bootcampId) INNER JOIN assignments ON students.id = assignments.studentsId);');
+        const data = yield query('SELECT * FROM ((bootcamps INNER JOIN students ON bootcamps.id = students.bootcampid) INNER JOIN assignments ON students.id = assignments.studentid);');
         return data.rows;
     });
 }

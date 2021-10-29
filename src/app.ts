@@ -1,5 +1,6 @@
-const Router = express.Router();
 import * as express from 'express';
+import { response } from 'express';
+const Router = express.Router();
 const cors = require('cors');
 
 const bootcampRouter = require('./routes/bootcamps');
@@ -13,6 +14,12 @@ const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cors({ origin: '*' }));
+
+// console.log(bootcampRouter);
+// console.log(recordRouter);
+// console.log(assignmentsRouter);
+// console.log(userRouter);
+
 
 app.use('/bootcamps', bootcampRouter);
 app.use('/records', recordRouter);

@@ -1,3 +1,4 @@
+"use strict";
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
@@ -7,11 +8,12 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
+Object.defineProperty(exports, "__esModule", { value: true });
 const { getStudentsById, getAllStudents, addStudent, updateStudent, deleteStudent } = require('../models/student');
 var express = require('express');
 var studentRouter = express.Router();
 // get by students id
-studentRouter.get("/:id", (req, res) => __awaiter(this, void 0, void 0, function* () {
+studentRouter.get("/:id", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { id } = req.params;
     const data = yield getStudentsById(id);
     res.json({
@@ -21,7 +23,7 @@ studentRouter.get("/:id", (req, res) => __awaiter(this, void 0, void 0, function
     });
 }));
 // getALL students
-studentRouter.get('/', (req, res) => __awaiter(this, void 0, void 0, function* () {
+studentRouter.get('/', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     console.log('GET all students');
     const data = yield getAllStudents();
     res.json({
@@ -31,7 +33,7 @@ studentRouter.get('/', (req, res) => __awaiter(this, void 0, void 0, function* (
     });
 }));
 // add student by
-studentRouter.post("/", (req, res) => __awaiter(this, void 0, void 0, function* () {
+studentRouter.post("/", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { body } = req;
     const response = yield addStudent(body);
     res.json({
@@ -41,7 +43,7 @@ studentRouter.post("/", (req, res) => __awaiter(this, void 0, void 0, function* 
     });
 }));
 // update student
-studentRouter.put("/", (req, res) => __awaiter(this, void 0, void 0, function* () {
+studentRouter.put("/", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { body } = req;
     const response = yield updateStudent(body);
     res.json({
@@ -51,7 +53,7 @@ studentRouter.put("/", (req, res) => __awaiter(this, void 0, void 0, function* (
     });
 }));
 // delete student
-studentRouter.delete("/", (req, res) => __awaiter(this, void 0, void 0, function* () {
+studentRouter.delete("/", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const data = yield deleteStudent;
     res.json({
         success: true,
@@ -59,5 +61,5 @@ studentRouter.delete("/", (req, res) => __awaiter(this, void 0, void 0, function
         payload: data,
     });
 }));
-module.exports = studentRouter;
+exports.default = studentRouter;
 //# sourceMappingURL=students.js.map

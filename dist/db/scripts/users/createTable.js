@@ -16,7 +16,7 @@ function createTable() {
         const sqlQuery = `CREATE TABLE IF NOT EXISTS users (
 
     id SERIAL PRIMARY KEY,
-    bootcampId INTEGER,
+    bootcampid INTEGER,
     watchList TEXT
 );`;
         try {

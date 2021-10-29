@@ -19,10 +19,23 @@ interface IOwner {
   site_admin: boolean;
 }
 
-interface IPermissions {
+interface IRepoPermissions {
   admin: boolean;
   push: boolean;
   pull: boolean;
+}
+
+interface IAppPermissions {
+  metadata: string;
+  contents: string;
+  issues: string;
+  single_file: string;
+}
+
+interface IRepoInfo {
+  id: number;
+  url: string;
+  name: string;
 }
 
 interface ILicense {
@@ -174,6 +187,62 @@ interface IRepository {
   pushed_at: string;
   created_at: string;
   updated_at: string;
-  permissions: IPermissions;
+  permissions: IRepoPermissions;
   template_repository: ITemplateRepository;
+}
+
+interface IApp {
+  id: number;
+  slug: string;
+  node_id: string;
+  owner: IOwner;
+  name: string;
+  description: string;
+  external_url: string;
+  html_url: string;
+  created_at: string;
+  updated_at: string;
+  permissions: IAppPermissions;
+  events: Array<string>;
+}
+
+interface IOutput {
+  title: string;
+  summary: string;
+  text: string;
+  annotations_count: number;
+  annotations_url: string;
+}
+
+interface IBranch {
+  ref: string;
+  sha: string;
+  repo: IRepoInfo;
+}
+
+interface IPullRequest {
+  url: string;
+  id: number;
+  number: number;
+  head: IBranch;
+  base: IBranch;
+}
+
+interface ICheckRun {
+  id: number;
+  head_sha: string;
+  node_id: string;
+  external_id: string;
+  url: string;
+  html_url: string;
+  details_url: string;
+  status: string;
+  conclusion: string;
+  started_at: string;
+  completed_at: string;
+  output: IOutput;
+  name: string;
+  check_suite: Record<string, number>;
+  app: IApp;
+  pull_requests: Array<IPullRequest>;
 }

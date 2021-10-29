@@ -1,3 +1,4 @@
+"use strict";
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
@@ -7,6 +8,8 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.fetchCheckRunsFromCommit = exports.fetchRepos = void 0;
 const axios = require('axios').default;
 const url = 'https://api.github.com';
 const repositoryOwner = 'SchoolOfCode';
@@ -22,6 +25,7 @@ function fetchRepos() {
         return response.data;
     });
 }
+exports.fetchRepos = fetchRepos;
 function fetchCheckRunsFromCommit(repoName, commitRef) {
     return __awaiter(this, void 0, void 0, function* () {
         const requestUrl = `${url}/repos/${repositoryOwner}/${repoName}/commits/${commitRef}/check-runs`;
@@ -32,4 +36,5 @@ function fetchCheckRunsFromCommit(repoName, commitRef) {
         return response.data.check_runs;
     });
 }
+exports.fetchCheckRunsFromCommit = fetchCheckRunsFromCommit;
 //# sourceMappingURL=fetchData.js.map

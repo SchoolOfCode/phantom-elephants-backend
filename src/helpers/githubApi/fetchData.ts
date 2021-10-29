@@ -1,13 +1,16 @@
-const axios = require('axios').default;
+import { AxiosInstance, AxiosResponse } from 'axios';
+import { ICheckRun, IRepository } from '../../types/githubData';
 
-const url = 'https://api.github.com';
-const repositoryOwner = 'SchoolOfCode';
-const ownerType = 'orgs';
-const authString = `token ${process.env.GITHUB_API_KEY}`;
+const axios: AxiosInstance = require('axios').default;
 
-async function fetchRepos() {
+const url: string = 'https://api.github.com';
+const repositoryOwner: string = 'SchoolOfCode';
+const ownerType: string = 'orgs';
+const authString: string = `token ${process.env.GITHUB_API_KEY}`;
+
+export async function fetchRepos(): Promise<IRepository[]> {
   const requestUrl = `${url}/${ownerType}/${repositoryOwner}/repos`;
-  const response = await axios.get(requestUrl, {
+  const response: AxiosResponse<any, any> = await axios.get(requestUrl, {
     method: 'GET',
     headers: { Authorization: authString },
   });
@@ -15,9 +18,12 @@ async function fetchRepos() {
   return response.data;
 }
 
-async function fetchCheckRunsFromCommit(repoName: string, commitRef: string) {
+export async function fetchCheckRunsFromCommit(
+  repoName: string,
+  commitRef: string
+): Promise<ICheckRun[]> {
   const requestUrl = `${url}/repos/${repositoryOwner}/${repoName}/commits/${commitRef}/check-runs`;
-  const response = await axios.get(requestUrl, {
+  const response: AxiosResponse<any, any> = await axios.get(requestUrl, {
     method: 'GET',
     headers: { Authorization: authString },
   });

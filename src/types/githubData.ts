@@ -1,4 +1,4 @@
-interface IOwner {
+export interface IOwner {
   login: string;
   id: number;
   node_id: string;
@@ -19,26 +19,26 @@ interface IOwner {
   site_admin: boolean;
 }
 
-interface IRepoPermissions {
+export interface IRepoPermissions {
   admin: boolean;
   push: boolean;
   pull: boolean;
 }
 
-interface IAppPermissions {
+export interface IAppPermissions {
   metadata: string;
   contents: string;
   issues: string;
   single_file: string;
 }
 
-interface IRepoInfo {
+export interface IRepoInfo {
   id: number;
   url: string;
   name: string;
 }
 
-interface ILicense {
+export interface ILicense {
   key: string;
   name: string;
   url: string;
@@ -47,7 +47,7 @@ interface ILicense {
   html_url: string;
 }
 
-interface ITemplateRepository {
+export interface ITemplateRepository {
   id: number;
   node_id: string;
   name: string;
@@ -114,7 +114,7 @@ interface ITemplateRepository {
   license: ILicense;
 }
 
-interface IRepository {
+export interface IRepository {
   id: number;
   node_id: string;
   name: string;
@@ -191,7 +191,7 @@ interface IRepository {
   template_repository: ITemplateRepository;
 }
 
-interface IApp {
+export interface IApp {
   id: number;
   slug: string;
   node_id: string;
@@ -206,7 +206,7 @@ interface IApp {
   events: Array<string>;
 }
 
-interface IOutput {
+export interface IOutput {
   title: string;
   summary: string;
   text: string;
@@ -214,13 +214,13 @@ interface IOutput {
   annotations_url: string;
 }
 
-interface IBranch {
+export interface IBranch {
   ref: string;
   sha: string;
   repo: IRepoInfo;
 }
 
-interface IPullRequest {
+export interface IPullRequest {
   url: string;
   id: number;
   number: number;
@@ -228,7 +228,7 @@ interface IPullRequest {
   base: IBranch;
 }
 
-interface ICheckRun {
+export interface ICheckRun {
   id: number;
   head_sha: string;
   node_id: string;

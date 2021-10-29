@@ -5,7 +5,7 @@ getAllStudents :any;
 addStudent : any;
 updateStudent: any;
 deleteStudent : any;
-   }   = require('../models/student')
+   } = require('../models/student')
 
 
    var express = require('express');
@@ -70,6 +70,6 @@ studentRouter.delete("/", async (req, res) => {
 });
 
 
-  module.exports = studentRouter;
+ export default studentRouter;
 
 

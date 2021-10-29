@@ -1,5 +1,3 @@
-const express = require("express");
-const Router = express.Router();
 
 const { query } = require('../db/index');
 // import interface for models
@@ -16,7 +14,7 @@ const data = await query('SELECT * FROM user');
 }
 
 
-async function addUser(user) {
+export async function addUser(user) {
 	const sqlString = `INSERT INTO user (name, bootcamperId, watchList) VALUES ($1,$2,$3) RETURNING *;`;
 
 	const data = await query(sqlString, [
@@ -29,7 +27,7 @@ async function addUser(user) {
 
 }
 // need to add table name + insert values into sql string + await query array
-async function updateUser(user, id ) {
+export async function updateUser(user, id ) {
 	const sqlString = `UPDATE user  SET name = '$1', watchList='$2' bootcamperId= $3' WHERE id=${id} RETURNING *;`;
 	const data = await query(sqlString, [
         user.name,
@@ -38,12 +36,12 @@ async function updateUser(user, id ) {
 	return data.rows[0];
 }
 
-async function deleteUser({id}) {
+export async function deleteUser({id}) {
 	const sqlString = `DELETE FROM user WHERE id='${id}' RETURNING *;`;
 	const data = await query(sqlString);
 	return data.rows[0];
 }
-module.exports = { getAllUsers, getUserById, addUser, updateUser,deleteUser };
+
 
 
 

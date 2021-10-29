@@ -1,5 +1,3 @@
-const express = require("express");
-const Router = express.Router();
 
 const { query } = require('../db/index');
 // import interface for models
@@ -16,7 +14,7 @@ const data = await query('SELECT * FROM students');
 }
 
 
-async function addStudent(student) {
+export async function addStudent(student) {
 	const sqlString = `INSERT INTO student (name, username, bootcampId) VALUES ($1,$2,$3) RETURNING *;`;
 
 	const data = await query(sqlString, [
@@ -28,7 +26,7 @@ async function addStudent(student) {
   return data.rows[0].name;
 }
 
-async function updateStudent( student, id ) {
+export async function updateStudent( student, id ) {
 	const sqlString = `UPDATE student  SET name = '$1', username ='$2' bootcampId= $3' WHERE id=${id} RETURNING *;`;
 	const data = await query(sqlString, [
         student.name,
@@ -37,9 +35,9 @@ async function updateStudent( student, id ) {
 	return data.rows[0];
 }
 
-async function deleteStudent({id}) {
+export async function deleteStudent({id}) {
 	const sqlString = `DELETE FROM student WHERE id='${id}' RETURNING *;`;
 	const data = await query(sqlString);
 	return data.rows[0];
 }
-module.exports = { getAllStudents, getStudentById, addStudent, updateStudent,deleteStudent };
+

@@ -9,7 +9,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getAllBootcamps = exports.getBootcampById = void 0;
+exports.deleteBootcamp = exports.updateBootcamp = exports.addBootcamp = exports.getAllBootcamps = exports.getBootcampById = void 0;
 const { query } = require('../db/index');
 // import interface for models
 //get bootcamp by id
@@ -40,4 +40,39 @@ exports.getAllBootcamps = getAllBootcamps;
 //   getBootcampById,
 //   getAllBootcamps,
 // };
+// need to add table name + insert values + response details
+function addBootcamp(bootcamp) {
+    return __awaiter(this, void 0, void 0, function* () {
+        const sqlString = `INSERT INTO bootcamps (name, region, startDate) VALUES ($1,$2,$3) RETURNING *;`;
+        const data = yield query(sqlString, [
+            bootcamp.name,
+            bootcamp.region,
+            bootcamp.startDate
+        ]);
+        return data.rows[0].name;
+    });
+}
+exports.addBootcamp = addBootcamp;
+// need to add table name + insert values into sql string + await query array
+function updateBootcamp(bootcamp, id) {
+    return __awaiter(this, void 0, void 0, function* () {
+        const sqlString = `UPDATE bootcamps  SET name = '$1', region='$2' startDate= $3' WHERE id=${id} RETURNING *;`;
+        console.log(bootcamp);
+        const data = yield query(sqlString, [
+            bootcamp.name,
+            bootcamp.region,
+            bootcamp.startDate
+        ]);
+        return data.rows[0];
+    });
+}
+exports.updateBootcamp = updateBootcamp;
+function deleteBootcamp({ id }) {
+    return __awaiter(this, void 0, void 0, function* () {
+        const sqlString = `DELETE FROM bootcamps  WHERE id='${id}' RETURNING *;`;
+        const data = yield query(sqlString);
+        return data.rows[0];
+    });
+}
+exports.deleteBootcamp = deleteBootcamp;
 //# sourceMappingURL=bootcamps.js.map

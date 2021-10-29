@@ -26,16 +26,14 @@ async function addStudent(student) {
 		
 	]);
   return data.rows[0].name;
-
-
 }
-// need to add table name + insert values into sql string + await query array
-async function updateStudent(name, username, bootcampId, student, id ) {
+
+async function updateStudent( student, id ) {
 	const sqlString = `UPDATE student  SET name = '$1', username ='$2' bootcampId= $3' WHERE id=${id} RETURNING *;`;
 	const data = await query(sqlString, [
         student.name,
         student.username,
-		student.bootcamperId, ])
+		student.bootcampId, ])
 	return data.rows[0];
 }
 

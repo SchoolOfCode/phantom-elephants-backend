@@ -33,26 +33,26 @@ export async function getAllBootcamps() {
 
 
 // need to add table name + insert values + response details
-async function addBootcamp(bootcamper) {
+async function addBootcamp(bootcamp) {
 	const sqlString = `INSERT INTO bootcamps (name, region, startDate) VALUES ($1,$2,$3) RETURNING *;`;
 
 	const data = await query(sqlString, [
-		bootcamper.name,
-		bootcamper.region,
-		bootcamper.startDate
+		bootcamp.name,
+		bootcamp.region,
+		bootcamp.startDate
 	]);
   return data.rows[0].name;
 
 
 }
 // need to add table name + insert values into sql string + await query array
-async function updateBootcamp(name, region, startDate, bootcamper, id) {
+async function updateBootcamp(bootcamp, id) {
 	const sqlString = `UPDATE bootcamps  SET name = '$1', region='$2' startDate= $3' WHERE id=${id} RETURNING *;`;
-	console.log(bootcamper);
+	console.log(bootcamp);
 	const data = await query(sqlString, [
-    bootcamper.name,
-  	bootcamper.region,
-		bootcamper.startDate]);
+    bootcamp.name,
+  	bootcamp.region,
+	bootcamp.startDate]);
 	return data.rows[0];
 }
 

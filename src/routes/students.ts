@@ -46,7 +46,6 @@ studentRouter.post("/", async (req, res) => {
   });
 });
 
-
 // update student
 
 studentRouter.put("/", async (req,res) => {

@@ -43,7 +43,7 @@ async function updateWork(studentId, title,type, date) {
 
 async function deleteWork({id}) {
 	const sqlString = `DELETE FROM work  WHERE id='${id}' RETURNING *;`;
-	const data = await query(sqlString);go
+	const data = await query(sqlString);
 	return data.rows[0];
 }
 module.exports = {getAllWork, getWorkById, addWork, updateWork, deleteWork };

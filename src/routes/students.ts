@@ -9,11 +9,11 @@ deleteStudent : any;
 
 
    var express = require('express');
-   var router = express.Router();
+   var studentRouter = express.Router();
 
 
  // get by students id
-router.get("/:id", async (req:any, res:any) => {
+studentRouter.get("/:id", async (req:any, res:any) => {
     const { id } = req.params;
     const data = await getStudentsById(id);
     res.json({
@@ -23,11 +23,11 @@ router.get("/:id", async (req:any, res:any) => {
     });
   });
 
-module.exports = router;
+
 
 
 // getALL students
-router.get('/', async (req: any, res: any) => {
+studentRouter.get('/', async (req: any, res: any) => {
     console.log('GET all students');
     const data = await getAllStudents();
     res.json({
@@ -39,6 +39,6 @@ router.get('/', async (req: any, res: any) => {
   
 
 
-
+  module.exports = studentRouter;
 
 

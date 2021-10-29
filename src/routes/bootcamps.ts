@@ -27,16 +27,22 @@ Export  router
 const {
   getBootcampById,
   getAllBootcamps,
+  addBootcamp, 
+  updateBootcamp,
+  deleteBootcamp,
 }: {
   getBootcampById: any;
   getAllBootcamps: any;
+  addBootcamp: any;
+  updateBootcamp: any;
+  deleteBootcamp: any;
 } = require('../models/bootcamps');
 
 var express = require('express');
-var router = express.Router();
+var bootcampRouter = express.Router();
 
 //get bootcamp by id
-router.get('/:id', async (req: any, res: any) => {
+bootcampRouter.get('/:id', async (req: any, res: any) => {
   const { id } = req.params;
   console.log('get bootcamp by => ', id);
   const data = await getBootcampById(id);
@@ -48,7 +54,7 @@ router.get('/:id', async (req: any, res: any) => {
 });
 
 //get all bootcamp
-router.get('/', async (req: any, res: any) => {
+bootcampRouter.get('/', async (req: any, res: any) => {
   console.log('GET bootcamps');
   const data = await getAllBootcamps();
   res.json({
@@ -59,7 +65,42 @@ router.get('/', async (req: any, res: any) => {
 });
 
 
+// add bootcamp
+bootcampRouter.post("/", async (req, res) => {
+  const { body } = req;
+  const response = await addBootcamp(body);
+  res.json({
+    success: true,
+    message: "Bootcamp added successfully",
+    payload: response,
+  });
+});
 
 
 
-module.exports = router;
+// update bootcamp
+
+bootcampRouter.put("/:bootcamp", async (req,res) => {
+  const { body } = req;
+  const response = await updateBootcamp(body)
+  res.json({
+    success: true,
+    message: "bootcamp updated successfully",
+    payload: response,
+  });
+});
+
+
+// delete bootcamp
+
+bootcampRouter.delete("/:bootcamp", async (req, res) => {
+  const data = await deleteBootcamp;
+   res.json({
+    success: true,
+    message: "bootcamp deleted successfully",
+    payload: data,
+  });
+});
+
+
+module.exports = bootcampRouter;

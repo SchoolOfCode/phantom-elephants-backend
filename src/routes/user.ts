@@ -20,8 +20,6 @@ const {getUserById, getAllUsers, addUser, updateUser, deleteUser} : {
     payload: data,});
    });
 
-
-
 // get all users 
 userRouter.get('/', async (req: any, res: any) => {
     console.log('GET all users');
@@ -33,7 +31,6 @@ userRouter.get('/', async (req: any, res: any) => {
     });
   });
   
-
 // add user by
 userRouter.post("/", async (req, res) => {
     const { body } = req;
@@ -46,10 +43,9 @@ userRouter.post("/", async (req, res) => {
   });
 
 
-
 // update user
 
-userRouter.put("/:user", async (req,res) => {
+userRouter.put("/", async (req,res) => {
     const { body } = req;
     const response = await updateUser(body)
     res.json({
@@ -59,10 +55,9 @@ userRouter.put("/:user", async (req,res) => {
     });
   });
 
-
  // delete user
 
- userRouter.delete("/:user", async (req, res) => {
+ userRouter.delete("/", async (req, res) => {
     const data = await deleteUser;
      res.json({
       success: true,

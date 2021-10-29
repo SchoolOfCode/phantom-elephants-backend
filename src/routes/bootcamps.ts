@@ -19,8 +19,6 @@ Initialise a new router
 - get student by id 
 - get student work (object )?
 - get user by id 
-
-
 Export  router
 */
 
@@ -80,7 +78,7 @@ bootcampRouter.post("/", async (req, res) => {
 
 // update bootcamp
 
-bootcampRouter.put("/:bootcamp", async (req,res) => {
+bootcampRouter.put("/", async (req,res) => {
   const { body } = req;
   const response = await updateBootcamp(body)
   res.json({
@@ -93,7 +91,7 @@ bootcampRouter.put("/:bootcamp", async (req,res) => {
 
 // delete bootcamp
 
-bootcampRouter.delete("/:bootcamp", async (req, res) => {
+bootcampRouter.delete("/", async (req, res) => {
   const data = await deleteBootcamp;
    res.json({
     success: true,

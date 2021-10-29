@@ -24,8 +24,6 @@ studentRouter.get("/:id", async (req:any, res:any) => {
   });
 
 
-
-
 // getALL students
 studentRouter.get('/', async (req: any, res: any) => {
     console.log('GET all students');
@@ -37,6 +35,40 @@ studentRouter.get('/', async (req: any, res: any) => {
     });
   });
   
+// add student by
+studentRouter.post("/", async (req, res) => {
+  const { body } = req;
+  const response = await addStudent(body);
+  res.json({
+    success: true,
+    message: "student added successfully",
+    payload: response,
+  });
+});
+
+
+// update student
+
+studentRouter.put("/", async (req,res) => {
+  const { body } = req;
+  const response = await updateStudent(body)
+  res.json({
+    success: true,
+    message: "student updated successfully",
+    payload: response,
+  });
+});
+
+// delete student
+
+studentRouter.delete("/", async (req, res) => {
+  const data = await deleteStudent;
+   res.json({
+    success: true,
+    message: "student deleted successfully",
+    payload: data,
+  });
+});
 
 
   module.exports = studentRouter;

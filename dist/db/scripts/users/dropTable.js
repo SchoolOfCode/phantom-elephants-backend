@@ -14,7 +14,7 @@ function deleteTable() {
     return __awaiter(this, void 0, void 0, function* () {
         const sqlQuery = `DROP TABLE IF EXISTS users`;
         const response = yield db.query(sqlQuery);
-        console.log("users table deleted");
+        console.log('users table deleted');
     });
 }
 deleteTable();

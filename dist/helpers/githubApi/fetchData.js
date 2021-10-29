@@ -9,7 +9,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 const axios = require('axios').default;
 const url = 'https://api.github.com';
-const repositoryOwner = 'onlyasmalllizard';
+const repositoryOwner = 'SchoolOfCode';
 const ownerType = 'orgs';
 const authString = `token ${process.env.GITHUB_API_KEY}`;
 function fetchRepos() {
@@ -19,18 +19,17 @@ function fetchRepos() {
             method: 'GET',
             headers: { Authorization: authString },
         });
-        return response;
+        return response.data;
     });
 }
-function fetchTestResultFromCommit(repoName, commitRef) {
+function fetchCheckRunsFromCommit(repoName, commitRef) {
     return __awaiter(this, void 0, void 0, function* () {
         const requestUrl = `${url}/repos/${repositoryOwner}/${repoName}/commits/${commitRef}/check-runs`;
         const response = yield axios.get(requestUrl, {
             method: 'GET',
             headers: { Authorization: authString },
         });
-        console.log(response);
+        return response.data.check_runs;
     });
 }
-console.log(fetchTestResultFromCommit('github-tests', '9b09dd4'));
 //# sourceMappingURL=fetchData.js.map

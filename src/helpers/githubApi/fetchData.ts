@@ -12,7 +12,7 @@ async function fetchRepos() {
     headers: { Authorization: authString },
   });
 
-  return response;
+  return response.data;
 }
 
 async function fetchCheckRunsFromCommit(repoName: string, commitRef: string) {

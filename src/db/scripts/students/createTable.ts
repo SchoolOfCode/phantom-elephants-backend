@@ -1,4 +1,4 @@
-import { Idb } from '../../dbTypes';
+import { Idb } from '../../../types/database';
 
 const db: Idb = require('../../index');
 
@@ -10,23 +10,22 @@ Console.log if it was successful
 Outside of the function, call the createTable function
 */
 
- // info,id, name, username,avatar
+// info,id, name, username,avatar
 
-async function createTable() : Promise<void> {
-const sqlQuery = `CREATE TABLE IF NOT EXISTS students (
+async function createTable(): Promise<void> {
+  const sqlQuery = `CREATE TABLE IF NOT EXISTS students (
 
     id SERIAL PRIMARY KEY,
     name TEXT,
     username TEXT,
     avatar TEXT
-);` ;
+);`;
 
-try {
+  try {
     const response = await db.query(sqlQuery);
     console.log('Students table created');
   } catch (error) {
     console.log(`${error.name}: ${error.message}`);
   }
-
 }
 createTable();

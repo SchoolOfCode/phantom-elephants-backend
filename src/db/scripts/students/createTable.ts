@@ -19,7 +19,8 @@ async function createTable(): Promise<void> {
     name TEXT,
     username TEXT,
     avatar TEXT,
-    bootcampid INTEGER
+    bootcampid INTEGER,
+    
 );`;
 
   try {

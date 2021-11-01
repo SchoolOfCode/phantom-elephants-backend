@@ -1,10 +1,11 @@
 
-const {getStudentsById, getAllStudents, addStudent, updateStudent,deleteStudent} :{
+const {getStudentsById, getAllStudents, addStudent, updateStudent,deleteStudent, updateStudentComments} :{
 getStudentsById: any;
 getAllStudents :any;
 addStudent : any;
 updateStudent: any;
 deleteStudent : any;
+updateStudentComments: any;
    } = require('../models/student')
 
 
@@ -68,6 +69,19 @@ studentRouter.delete("/", async (req, res) => {
     payload: data,
   });
 });
+
+//Update Student Comments
+
+studentRouter.put("/", async (req,res) => {
+  const { body } = req;
+  const response = await updateStudentComments(body)
+  res.json({
+    success: true,
+    message: "student comments updated successfully",
+    payload: response,
+  });
+});
+
 
 
  export default studentRouter;

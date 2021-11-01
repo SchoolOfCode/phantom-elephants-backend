@@ -9,65 +9,55 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.updateStudentComments = exports.deleteStudent = exports.updateStudent = exports.addStudent = exports.getAllStudents = exports.getStudentById = void 0;
+exports.updateStudentComments = exports.deleteStudentComments = exports.addStudentComments = exports.getAllStudentsComments = exports.getStudentCommentById = void 0;
 const { query } = require('../db/index');
 // import interface for models
-//get student by id
-function getStudentById(id) {
+//get student comment by id
+function getStudentCommentById(id) {
     return __awaiter(this, void 0, void 0, function* () {
-        const data = yield query('SELECT * FROM student WHERE id = $1', [id]);
+        const data = yield query('SELECT * FROM comments WHERE id = $1', [id]);
         return data.rows;
     });
 }
-exports.getStudentById = getStudentById;
-function getAllStudents() {
+exports.getStudentCommentById = getStudentCommentById;
+function getAllStudentsComments() {
     return __awaiter(this, void 0, void 0, function* () {
-        const data = yield query('SELECT * FROM students');
+        const data = yield query('SELECT * FROM comments');
         return data.rows;
     });
 }
-exports.getAllStudents = getAllStudents;
-function addStudent(student) {
+exports.getAllStudentsComments = getAllStudentsComments;
+function addStudentComments(comments) {
     return __awaiter(this, void 0, void 0, function* () {
-        const sqlString = `INSERT INTO student (name, username, bootcampId) VALUES ($1,$2,$3) RETURNING *;`;
+        const sqlString = `INSERT INTO comments (comments, author, imageUrl, date, bootcampid) VALUES ($1,$2,$3,$4,$5) RETURNING *;`;
         const data = yield query(sqlString, [
-            student.name,
-            student.username,
-            student.bootcampId,
+            comments.comments,
+            comments.author,
+            comments.bootcampid,
+            comments.date,
+            comments.imageUrl
         ]);
         return data.rows[0].name;
     });
 }
-exports.addStudent = addStudent;
-function updateStudent(student, id) {
+exports.addStudentComments = addStudentComments;
+function deleteStudentComments({ id }) {
     return __awaiter(this, void 0, void 0, function* () {
-        const sqlString = `UPDATE student  SET name = '$1', username ='$2' bootcampId= $3' WHERE id=${id} RETURNING *;`;
-        const data = yield query(sqlString, [
-            student.name,
-            student.username,
-            student.bootcampId,
-        ]);
-        return data.rows[0];
-    });
-}
-exports.updateStudent = updateStudent;
-function deleteStudent({ id }) {
-    return __awaiter(this, void 0, void 0, function* () {
-        const sqlString = `DELETE FROM student WHERE id='${id}' RETURNING *;`;
+        const sqlString = `DELETE FROM comments WHERE id='${id}' RETURNING *;`;
         const data = yield query(sqlString);
         return data.rows[0];
     });
 }
-exports.deleteStudent = deleteStudent;
+exports.deleteStudentComments = deleteStudentComments;
 //Update student comments
-function updateStudentComments(student, id) {
+function updateStudentComments(comments, id) {
     return __awaiter(this, void 0, void 0, function* () {
-        const sqlString = `UPDATE student  SET comments = '$1' WHERE id=${id} RETURNING *;`;
+        const sqlString = `UPDATE comments SET comments = '$1', author = '$2', imageUrl = '$3', date = '$4', bootcampid = '$5' WHERE id=${id} RETURNING *;`;
         const data = yield query(sqlString, [
-            student.comments
+            comments.comments
         ]);
         return data.rows[0];
     });
 }
 exports.updateStudentComments = updateStudentComments;
-//# sourceMappingURL=student.js.map
+//# sourceMappingURL=studentcomments.js.map

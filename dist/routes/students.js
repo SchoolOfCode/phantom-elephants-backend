@@ -9,7 +9,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const { getStudentsById, getAllStudents, addStudent, updateStudent, deleteStudent } = require('../models/student');
+const { getStudentsById, getAllStudents, addStudent, updateStudent, deleteStudent, updateStudentComments } = require('../models/student');
 var express = require('express');
 var studentRouter = express.Router();
 // get by students id
@@ -59,6 +59,16 @@ studentRouter.delete("/", (req, res) => __awaiter(void 0, void 0, void 0, functi
         success: true,
         message: "student deleted successfully",
         payload: data,
+    });
+}));
+//Update Student Comments
+studentRouter.put("/", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const { body } = req;
+    const response = yield updateStudentComments(body);
+    res.json({
+        success: true,
+        message: "student comments updated successfully",
+        payload: response,
     });
 }));
 exports.default = studentRouter;

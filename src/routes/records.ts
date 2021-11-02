@@ -12,13 +12,12 @@ const {
   getAllStudentRecordsByIdTypeAndDate: any;
 } = require("../models/records");
 
-
-
 function addNulls(array, bootcampStartDate) {
   // check if the array starts on start date and add actual nulls
   let resultArray = [];
   let startDiff = +(
-    Math.round(array[0].date - bootcampStartDate) / (1000 * 60 * 60 * 24)
+    Math.round(array[0].date - bootcampStartDate) /
+    (1000 * 60 * 60 * 24)
   ).toFixed(0);
   if (startDiff > 0) {
     resultArray = [...Array(startDiff - 1).fill(null)];
@@ -27,7 +26,7 @@ function addNulls(array, bootcampStartDate) {
     let curr = array[i].date;
     let next = array[i + 1].date;
     const diffTime = Math.abs(next - curr);
-const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24)); 
+    const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
 
     diffDays > 1
       ? resultArray.push(array[i], ...Array(diffDays - 1).fill(null))
@@ -39,14 +38,13 @@ const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
   }
   return resultArray;
 }
-function addNullsEnd(array){
-   let endDiff = 60 - array.length;
+function addNullsEnd(array) {
+  let endDiff = 60 - array.length;
   if (endDiff > 0) {
     array = [...array, ...Array(endDiff).fill(null)];
   }
   return array;
 }
-
 
 recordRouter.get("/", async (req: any, res: any) => {
   // loop over all students and bring back records in grouped array by studentID
@@ -94,24 +92,28 @@ recordRouter.get("/", async (req: any, res: any) => {
                 },
               ]
             : acc,
-
         []
       ),
       studentRecords[0].startdate
     );
     // group workshop list in sub-arrays by date [[{1},{2},{3}], [{4},{5}], [{6}]]
-    const workshops = addNullsEnd(workshopsList.reduce(
-      (acc, cur, index, array) =>
-        index < 1 || cur === null || workshopsList[index - 1] === null
-          ? [...acc, cur]
-          : cur.date.toString().slice(0, 11) ===
-            workshopsList[index - 1].date.toString().slice(0, 11)
-          ? [...acc.slice(0, acc.length - 1), [...acc.slice(-1), cur]]
-          : [...acc, cur],
-      []
-    ));
+    const workshopsFirst = addNullsEnd(
+      workshopsList.reduce(
+        (acc, cur, index, array) =>
+          index < 1 || cur === null || workshopsList[index - 1] === null
+            ? [...acc, cur]
+            : cur.date.toString().slice(0, 11) ===
+              workshopsList[index - 1].date.toString().slice(0, 11)
+            ? [...acc.slice(0, acc.length - 1), [...acc.slice(-1), cur]]
+            : [...acc, cur],
+        []
+      )
+    );
+    const workshops = workshopsFirst.map((item) =>
+      item ? (Array.isArray(item) ? item : [item]) : null
+    );
 
-    reflections
+    // reflections
     const reflections = addNulls(
       studentRecords.reduce(
         (acc, cur) =>
@@ -164,16 +166,33 @@ recordRouter.get("/", async (req: any, res: any) => {
           : [...acc, cur],
       []
     );
-    const feedback = feedbackUnsort.map((item) => Array.isArray(item) ? (item[0].timeOfDay === 'morning' ? item : [item[1], item[0]]) : item)
+    const feedback = addNullsEnd(
+      feedbackUnsort.map((item) =>
+        item
+          ? Array.isArray(item)
+            ? item[0].timeOfDay === "morning"
+              ? item
+              : [item[1], item[0]]
+            : item.ttimeOfDay === "morning"
+            ? [item, null]
+            : [null, item]
+          : [null, null]
+      )
+    );
 
     // const recaps
-    const recaps = addNullsEnd(addNulls(
-      studentRecords.reduce(listOfType, []),
-      studentRecords[0].startdate
-    ));
+    const recaps = addNullsEnd(
+      addNulls(
+        studentRecords.reduce(listOfType, []),
+        studentRecords[0].startdate
+      )
+    );
     // const attendance
-    const attendance = quizzes.map((quiz) => quiz ? true : false)
-    const daysAttended = attendance.reduce((acc, cur) => acc + cur, 0)/attendance.filter())
+    const attendance = quizzes.map((quiz) => (quiz ? true : false));
+    const daysAttended = attendance.reduce(
+      (acc, cur) => (cur ? acc + 1 : acc),
+      0
+    );
 
     allRecords = [
       ...allRecords,
@@ -185,21 +204,22 @@ recordRouter.get("/", async (req: any, res: any) => {
         avatar: studentRecords[0].avatar,
         region: studentRecords[0].region,
         startDate: studentRecords[0].startdate,
-        // quizzes,
-        // recaps,
-        // workshops,
-        // reflections,
-        // feedback,
+        quizzes,
+        recaps,
+        workshops,
+        reflections,
+        feedback,
         attendance,
         daysAttended,
       },
     ];
+    // console log test fo array lengths
     console.log(
-      // quizzes.length,
-      // workshops.length,
-      // reflections.length,
-      // feedback.length,
-      // recaps.length
+      quizzes.length,
+      workshops.length,
+      reflections.length,
+      feedback.length,
+      recaps.length
     );
   }
   // take array of students data by id and sort into

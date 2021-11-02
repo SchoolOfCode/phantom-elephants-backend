@@ -10,6 +10,7 @@ export interface Idb {
 interface IStudentInfo {
   id: number;
   name: string;
+  email: string;
   username: string;
   avatar: string;
 }
@@ -57,6 +58,3 @@ export interface IDataObject {
   startDate: string;
   students: Array<IStudentObject>;
 }
-
-
-

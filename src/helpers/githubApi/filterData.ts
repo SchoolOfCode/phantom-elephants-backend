@@ -1,5 +1,17 @@
-/*
-A way to find assigned work (workshops, recap tasks)
+import { fetchRepos, fetchCommitsFromRepo } from './fetchData';
+import { IRepository } from '../../types/githubData';
 
-A way to get the most recent commmit from assigned work
-*/
+async function getReposByBootcamp(
+  bootcampName: string
+): Promise<IRepository[]> {
+  const allRepos = await fetchRepos();
+  const filteredRepos = allRepos.filter((repo) => {
+    repo.topics.some((topic) => topic === bootcampName);
+  });
+
+  return filteredRepos;
+}
+
+async function getMostRecentCommit(repo: IRepository) {
+  const commits = await fetchCommitsFromRepo(repo.commits_url);
+}

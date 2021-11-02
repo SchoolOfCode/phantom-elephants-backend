@@ -246,3 +246,38 @@ export interface ICheckRun {
   app: IApp;
   pull_requests: Array<IPullRequest>;
 }
+
+interface IAuthor {
+  name: string;
+  email: string;
+  date: string;
+}
+
+interface IVerification {
+  verified: boolean;
+  reason: string;
+  signature: string | null;
+  payload: string | null;
+}
+
+export interface ICommit {
+  url: string;
+  author: IAuthor;
+  committer: IAuthor;
+  message: string;
+  tree: Record<string, string>;
+  comment_count: number;
+  verification: IVerification;
+}
+
+export interface ICommitResponse {
+  url: string;
+  sha: string;
+  node_id: string;
+  html_url: string;
+  comments_url: string;
+  commit: ICommit;
+  author: IOwner;
+  committer: IOwner;
+  parents: Array<Record<string, string>>;
+}

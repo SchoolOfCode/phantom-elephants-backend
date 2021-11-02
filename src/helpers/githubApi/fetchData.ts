@@ -1,5 +1,10 @@
 import { AxiosInstance, AxiosResponse } from 'axios';
-import { ICheckRun, IRepository } from '../../types/githubData';
+import {
+  ICheckRun,
+  ICommit,
+  ICommitResponse,
+  IRepository,
+} from '../../types/githubData';
 
 const axios: AxiosInstance = require('axios').default;
 
@@ -16,6 +21,16 @@ export async function fetchRepos(): Promise<IRepository[]> {
   });
 
   return response.data;
+}
+
+export async function fetchCommitsFromRepo(
+  commitsUrl: string
+): Promise<ICommit[]> {
+  const response: AxiosResponse<any, any> = await axios.get(commitsUrl, {
+    method: 'GET',
+    headers: { Authorization: authString },
+  });
+  return response.data.map((item: ICommitResponse): ICommit => item.commit);
 }
 
 export async function fetchCheckRunsFromCommit(

@@ -151,8 +151,7 @@ recordRouter.get("/", (req, res) => __awaiter(void 0, void 0, void 0, function* 
                 daysAttended,
             },
         ];
-        // workshop sub-array
-        // feedback all tuples
+        // console log test fo array lengths
         console.log(quizzes.length, workshops.length, reflections.length, feedback.length, recaps.length);
     }
     // take array of students data by id and sort into

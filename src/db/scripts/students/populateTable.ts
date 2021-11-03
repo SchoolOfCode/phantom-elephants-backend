@@ -8,12 +8,11 @@ const { data }: { data: Array<IDataObject> } = require("../../data");
 async function populateTable() {
   for (let index = 0; index < data.length; index++) {
     const { students, id } = data[index];
-
     const sqlQuery = `INSERT INTO students
        (name, username, avatar,bootcampid) 
        VALUES ($1, $2, $3, $4)
        RETURNING *;`;
-    for (let i = 0; i < students.length - 1; i++) {
+    for (let i = 0; i < students.length; i++) {
       console.log(students[i].info.name, " populated");
       const response = await db.query(sqlQuery, [
         students[i].info.name,

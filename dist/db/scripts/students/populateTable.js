@@ -20,7 +20,7 @@ function populateTable() {
        (name, username, avatar,bootcampid) 
        VALUES ($1, $2, $3, $4)
        RETURNING *;`;
-            for (let i = 0; i < students.length - 1; i++) {
+            for (let i = 0; i < students.length; i++) {
                 console.log(students[i].info.name, " populated");
                 const response = yield db.query(sqlQuery, [
                     students[i].info.name,

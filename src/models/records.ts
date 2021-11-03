@@ -1,6 +1,6 @@
 // INNER joins for tables
 import { Idb } from '../types/database';
-import { getAllStudents } from './students';
+import { getAllStudents } from './student';
 import {
   packageQuizzes,
   packageWorkshops,

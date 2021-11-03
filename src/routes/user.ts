@@ -5,15 +5,21 @@ const {
   updateUser,
   deleteUser,
 }: {
-  getUserById: any;
-  getAllUsers: any;
-  addUser: any;
-  updateUser: any;
-  deleteUser: any;
+  getUserById: (id: string) => Promise<any>;
+  getAllUsers: () => Promise<Array<any>>;
+  addUser: ({ user }: { user: Record<string, any> }) => Promise<any>;
+  updateUser: ({
+    user,
+    id,
+  }: {
+    user: Record<string, any>;
+    id: number;
+  }) => Promise<any>;
+  deleteUser: (id: string) => Promise<Array<any>>;
 } = require('../models/user');
 
-var express = require('express');
-var userRouter = express.Router();
+import * as express from 'express';
+const userRouter = express.Router();
 
 //     // get user by id
 

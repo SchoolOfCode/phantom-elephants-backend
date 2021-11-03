@@ -9,11 +9,12 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 const axios = require('axios').default;
 const url = 'https://api.github.com';
-const organisation = 'onlyasmalllizard';
+const organisation = 'SchoolOfCode';
+const userType = 'orgs';
+const authString = `token ${process.env.GITHUB_API_KEY}`;
 function fetchRepos() {
     return __awaiter(this, void 0, void 0, function* () {
-        const requestUrl = `${url}/users/${organisation}/repos`;
-        const authString = `token ${process.env.GITHUB_API_KEY}`;
+        const requestUrl = `${url}/${userType}/${organisation}/repos`;
         const response = yield axios.get(requestUrl, {
             method: 'GET',
             headers: { Authorization: authString },

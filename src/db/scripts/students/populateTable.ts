@@ -1,28 +1,30 @@
-import { Idb, IDataObject } from "../../dbTypes";
+import { Idb, IDataObject } from '../../../types/database';
 
-const db: Idb = require("../../index");
-const { data }: { data: Array<IDataObject> } = require("../../data");
+const db: Idb = require('../../index');
+const { data }: { data: Array<IDataObject> } = require('../../data');
 
 // info,id, name, username,avatar
 
 async function populateTable() {
-  for (let index = 0; index < data.length; index++) {
-    const { students, id } = data[index];
+  for (let i = 0; i < data.length; i++) {
+    const { students, id } = data[i];
+
     const sqlQuery = `INSERT INTO students
-       (name, username, avatar,bootcampid) 
-       VALUES ($1, $2, $3, $4)
+       (name, username, email, avatar, bootcampid) 
+       VALUES ($1, $2, $3, $4, $5)
        RETURNING *;`;
-    for (let i = 0; i < students.length; i++) {
-      console.log(students[i].info.name, " populated");
+    for (let j = 0; j < students.length; j++) {
       const response = await db.query(sqlQuery, [
-        students[i].info.name,
-        students[i].info.username,
-        students[i].info.avatar,
+        students[j].info.name,
+        students[j].info.username,
+        students[j].info.email,
+        students[j].info.avatar,
         id,
       ]);
+      console.log(students[i].info.name, ' populated');
     }
   }
-  console.log("students table populated");
+  console.log('students table populated');
 }
 
 populateTable();

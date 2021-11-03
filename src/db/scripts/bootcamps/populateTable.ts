@@ -1,4 +1,4 @@
-import { Idb, IDataObject } from '../../dbTypes';
+import { Idb, IDataObject } from '../../../types/database';
 
 const db: Idb = require('../../index');
 const { data }: { data: Array<IDataObject> } = require('../../data');

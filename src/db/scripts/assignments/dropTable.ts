@@ -1,4 +1,4 @@
-import { Idb } from '../../dbTypes';
+import { Idb } from '../../../types/database';
 
 const db: Idb = require('../../index');
 

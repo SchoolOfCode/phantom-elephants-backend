@@ -41,3 +41,13 @@ export async function deleteStudent({id}) {
 	return data.rows[0];
 }
 
+//Update student comments
+
+
+export async function updateStudentComments( student, id) {
+	const sqlString = `UPDATE student  SET comments = '$1' WHERE id=${id} RETURNING *;`;
+	const data = await query(sqlString, [
+        student.comments
+         ])
+	return data.rows[0];
+}

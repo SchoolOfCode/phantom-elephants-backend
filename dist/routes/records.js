@@ -9,128 +9,35 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-var express = require("express");
-var recordRouter = express.Router();
-const listOfType_1 = require("./../helpers/listOfType");
-const addNulls_1 = require("./../helpers/addNulls");
-const { getAllStudentRecordsById, getAllStudentsX, getAllStudentRecordsByIdTypeAndDate, } = require("../models/records");
-recordRouter.get("/", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    // loop over all students and bring back records in grouped array by studentID
-    const allStudents = yield getAllStudentsX();
-    let allRecords = [];
-    for (let id = 1; id <= allStudents.length; id++) {
-        const studentRecords = yield getAllStudentRecordsById(id);
-        // create a quiz list [{1},{2},{3},{4},{5},{6}...]
-        // if there is a gap in the dates insert as many nulls
-        // function to add nulls: is date +1 od the next ? add instance : add null
-        const quizzes = (0, addNulls_1.addNulls)(studentRecords.reduce((acc, cur) => cur.type === "quiz"
-            ? [
-                ...acc,
-                {
-                    type: cur.type,
-                    title: cur.title,
-                    date: cur.date,
-                    dateDay: cur.date.getDay(),
-                    score: cur.score,
-                    percentage: Math.round(eval(cur.score) * 100),
-                },
-            ]
-            : acc, []), studentRecords[0].startdate);
-        // create a workshop list [{1},{2},{3},{4},{5},{6}...]
-        const workshopsList = (0, addNulls_1.addNulls)(studentRecords.reduce((acc, cur) => cur.type === "workshop"
-            ? [
-                ...acc,
-                {
-                    type: cur.type,
-                    title: cur.title,
-                    date: cur.date,
-                    dateDay: cur.date.getDay(),
-                    score: cur.score,
-                },
-            ]
-            : acc, []), studentRecords[0].startdate);
-        // group workshop list in sub-arrays by date [[{1},{2},{3}], [{4},{5}], [{6}]]
-        const workshopsFirst = (0, addNulls_1.addNullsEnd)(workshopsList.reduce((acc, cur, index, array) => index < 1 || cur === null || workshopsList[index - 1] === null
-            ? [...acc, cur]
-            : cur.date.toString().slice(0, 11) ===
-                workshopsList[index - 1].date.toString().slice(0, 11)
-                ? [...acc.slice(0, acc.length - 1), [...acc.slice(-1), cur]]
-                : [...acc, cur], []));
-        const workshops = workshopsFirst.map((item) => item ? (Array.isArray(item) ? item : [item]) : null);
-        // reflections
-        const reflections = (0, addNulls_1.addNulls)(studentRecords.reduce((acc, cur) => cur.type === "reflection"
-            ? [
-                ...acc,
-                {
-                    type: cur.type,
-                    title: cur.title,
-                    date: cur.date,
-                    content: cur.content,
-                },
-            ]
-            : acc, []), studentRecords[0].startdate);
-        // feedback
-        const feedbackList = (0, addNulls_1.addNulls)(studentRecords.reduce((acc, cur) => cur.type === "feedback"
-            ? [
-                ...acc,
-                {
-                    type: cur.type,
-                    title: cur.title,
-                    date: cur.date,
-                    timeOfDay: cur.timeofday,
-                    experienceRating: cur.experiencerating,
-                    content: cur.comment,
-                },
-            ]
-            : acc, []), studentRecords[0].startdate);
-        const feedbackUnsort = feedbackList.reduce((acc, cur, index, array) => index < 1 || cur === null || array[index - 1] === null
-            ? [...acc, cur]
-            : cur.date.toString().slice(0, 11) ===
-                array[index - 1].date.toString().slice(0, 11)
-                ? [...acc.slice(0, acc.length - 1), [...acc.slice(-1), cur]]
-                : [...acc, cur], []);
-        const feedback = (0, addNulls_1.addNullsEnd)(feedbackUnsort.map((item) => item
-            ? Array.isArray(item)
-                ? item[0].timeOfDay === "morning"
-                    ? item
-                    : [item[1], item[0]]
-                : item.ttimeOfDay === "morning"
-                    ? [item, null]
-                    : [null, item]
-            : [null, null]));
-        // const recaps
-        const recaps = (0, addNulls_1.addNullsEnd)((0, addNulls_1.addNulls)(studentRecords.reduce(listOfType_1.listOfType, []), studentRecords[0].startdate));
-        // const attendance
-        const attendance = quizzes.map((quiz) => (quiz ? true : false));
-        const daysAttended = attendance.reduce((acc, cur) => (cur ? acc + 1 : acc), 0);
-        allRecords = [
-            ...allRecords,
-            {
-                id: studentRecords[0].id,
-                bootcampId: studentRecords[0].bootcampid,
-                name: studentRecords[0].name,
-                username: studentRecords[0].username,
-                avatar: studentRecords[0].avatar,
-                region: studentRecords[0].region,
-                startDate: studentRecords[0].startdate,
-                quizzes,
-                recaps,
-                workshops,
-                reflections,
-                feedback,
-                attendance,
-                daysAttended,
-            },
-        ];
-        // console log test fo array lengths
-        console.log(quizzes.length, workshops.length, reflections.length, feedback.length, recaps.length);
-    }
-    // take array of students data by id and sort into
+const express = require("express");
+const recordRouter = express.Router();
+const { getStudentRecordById, getAllStudentRecords, } = require('../models/records');
+recordRouter.get('/', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const data = yield getAllStudentRecords();
     res.json({
         success: true,
         message: `Search result for all student records`,
-        payload: allRecords,
+        payload: data,
     });
 }));
-module.exports = recordRouter;
+// GET by student id
+recordRouter.get('/:id', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const { id } = req.params;
+    const data = yield getStudentRecordById(id);
+    res.json({
+        success: true,
+        message: `Records for student ${id}`,
+        payload: data,
+    });
+}));
+// GET all records
+recordRouter.get('/', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const data = yield getAllStudentRecords();
+    res.json({
+        success: true,
+        message: `Search result for all student records`,
+        payload: data,
+    });
+}));
+exports.default = recordRouter;
 //# sourceMappingURL=records.js.map

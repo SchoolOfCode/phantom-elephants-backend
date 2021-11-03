@@ -1,24 +1,22 @@
-
-import { Idb } from '../../dbTypes';
+import { Idb } from '../../../types/database';
 
 const db: Idb = require('../../index');
 
- // id, bootcampId, watchList (array of students names)
+// id, bootcampId, watchList (array of students names)
 
-async function createTable() : Promise<void> {
-const sqlQuery = `CREATE TABLE IF NOT EXISTS users (
+async function createTable(): Promise<void> {
+  const sqlQuery = `CREATE TABLE IF NOT EXISTS users (
 
     id SERIAL PRIMARY KEY,
     bootcampid INTEGER,
     watchList TEXT
-);` ;
+);`;
 
-try {
+  try {
     const response = await db.query(sqlQuery);
     console.log('Users table created');
   } catch (error) {
     console.log(`${error.name}: ${error.message}`);
   }
-
 }
 createTable();

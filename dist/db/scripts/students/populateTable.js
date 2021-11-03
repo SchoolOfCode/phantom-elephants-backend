@@ -9,28 +9,29 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const db = require("../../index");
-const { data } = require("../../data");
+const db = require('../../index');
+const { data } = require('../../data');
 // info,id, name, username,avatar
 function populateTable() {
     return __awaiter(this, void 0, void 0, function* () {
-        for (let index = 0; index < data.length; index++) {
-            const { students, id } = data[index];
+        for (let i = 0; i < data.length; i++) {
+            const { students, id } = data[i];
             const sqlQuery = `INSERT INTO students
-       (name, username, avatar,bootcampid) 
-       VALUES ($1, $2, $3, $4)
+       (name, username, email, avatar, bootcampid) 
+       VALUES ($1, $2, $3, $4, $5)
        RETURNING *;`;
-            for (let i = 0; i < students.length; i++) {
-                console.log(students[i].info.name, " populated");
+            for (let j = 0; j < students.length; j++) {
                 const response = yield db.query(sqlQuery, [
-                    students[i].info.name,
-                    students[i].info.username,
-                    students[i].info.avatar,
+                    students[j].info.name,
+                    students[j].info.username,
+                    students[j].info.email,
+                    students[j].info.avatar,
                     id,
                 ]);
+                console.log(students[i].info.name, ' populated');
             }
         }
-        console.log("students table populated");
+        console.log('students table populated');
     });
 }
 populateTable();

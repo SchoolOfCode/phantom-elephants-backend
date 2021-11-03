@@ -9,7 +9,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.deleteStudent = exports.updateStudent = exports.addStudent = exports.getAllStudents = exports.getStudentById = void 0;
+exports.updateStudentComments = exports.deleteStudent = exports.updateStudent = exports.addStudent = exports.getAllStudents = exports.getStudentById = void 0;
 const { query } = require('../db/index');
 // import interface for models
 //get student by id
@@ -59,4 +59,15 @@ function deleteStudent({ id }) {
     });
 }
 exports.deleteStudent = deleteStudent;
+//Update student comments
+function updateStudentComments(student, id) {
+    return __awaiter(this, void 0, void 0, function* () {
+        const sqlString = `UPDATE student  SET comments = '$1' WHERE id=${id} RETURNING *;`;
+        const data = yield query(sqlString, [
+            student.comments
+        ]);
+        return data.rows[0];
+    });
+}
+exports.updateStudentComments = updateStudentComments;
 //# sourceMappingURL=student.js.map

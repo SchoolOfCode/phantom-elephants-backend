@@ -24,7 +24,10 @@
     "dbResetStudentsTable": " npm run dbDropStudentTable && npm run dbCreateStudentsTable &&  npm run dbPopulateStudentTable ",
     "dbCreateUsersTable": " node -r dotenv/config dist/db/scripts/users/createTable.js",
     "dbDropUsersTable": "node -r dotenv/config dist/db/scripts/users/dropTable.js",
-    "dbResetUsersTable": " npm run dbDropUsersTable && npm run dbCreateUsersTable"
+    "dbResetUsersTable": " npm run dbDropUsersTable && npm run dbCreateUsersTable",
+    "createCommentsTable": "node -r dotenv/config dist/db/scripts/Comments/createTable.js",
+    "deleteCommentsTable": "node -r dotenv/config dist/db/scripts/Comments/dropTable.js",
+    "populateCommentsTable": "node -r dotenv/config dist/db/scripts/Comments/populateTable.js"
   },
   "dependencies": {
     "@types/pg": "^8.6.1",

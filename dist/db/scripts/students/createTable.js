@@ -25,8 +25,10 @@ function createTable() {
     id SERIAL PRIMARY KEY,
     name TEXT,
     username TEXT,
+    email TEXT,
     avatar TEXT,
-    bootcampid INTEGER
+    bootcampid INTEGER,
+    
 );`;
         try {
             const response = yield db.query(sqlQuery);

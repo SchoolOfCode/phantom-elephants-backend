@@ -12,37 +12,8 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var express = require("express");
 var recordRouter = express.Router();
 const listOfType_1 = require("./../helpers/listOfType");
+const addNulls_1 = require("./../helpers/addNulls");
 const { getAllStudentRecordsById, getAllStudentsX, getAllStudentRecordsByIdTypeAndDate, } = require("../models/records");
-function addNulls(array, bootcampStartDate) {
-    // check if the array starts on start date and add actual nulls
-    let resultArray = [];
-    let startDiff = +(Math.round(array[0].date - bootcampStartDate) /
-        (1000 * 60 * 60 * 24)).toFixed(0);
-    if (startDiff > 0) {
-        resultArray = [...Array(startDiff - 1).fill(null)];
-    }
-    for (let i = 0; i < array.length - 1; i++) {
-        let curr = array[i].date;
-        let next = array[i + 1].date;
-        const diffTime = Math.abs(next - curr);
-        const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
-        diffDays > 1
-            ? resultArray.push(array[i], ...Array(diffDays - 1).fill(null))
-            : resultArray.push(array[i]);
-    }
-    let endDiff = 60 - resultArray.length;
-    if (endDiff > 0) {
-        resultArray.push(...Array(endDiff).fill(null));
-    }
-    return resultArray;
-}
-function addNullsEnd(array) {
-    let endDiff = 60 - array.length;
-    if (endDiff > 0) {
-        array = [...array, ...Array(endDiff).fill(null)];
-    }
-    return array;
-}
 recordRouter.get("/", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     // loop over all students and bring back records in grouped array by studentID
     const allStudents = yield getAllStudentsX();
@@ -52,7 +23,7 @@ recordRouter.get("/", (req, res) => __awaiter(void 0, void 0, void 0, function* 
         // create a quiz list [{1},{2},{3},{4},{5},{6}...]
         // if there is a gap in the dates insert as many nulls
         // function to add nulls: is date +1 od the next ? add instance : add null
-        const quizzes = addNulls(studentRecords.reduce((acc, cur) => cur.type === "quiz"
+        const quizzes = (0, addNulls_1.addNulls)(studentRecords.reduce((acc, cur) => cur.type === "quiz"
             ? [
                 ...acc,
                 {
@@ -66,7 +37,7 @@ recordRouter.get("/", (req, res) => __awaiter(void 0, void 0, void 0, function* 
             ]
             : acc, []), studentRecords[0].startdate);
         // create a workshop list [{1},{2},{3},{4},{5},{6}...]
-        const workshopsList = addNulls(studentRecords.reduce((acc, cur) => cur.type === "workshop"
+        const workshopsList = (0, addNulls_1.addNulls)(studentRecords.reduce((acc, cur) => cur.type === "workshop"
             ? [
                 ...acc,
                 {
@@ -79,7 +50,7 @@ recordRouter.get("/", (req, res) => __awaiter(void 0, void 0, void 0, function* 
             ]
             : acc, []), studentRecords[0].startdate);
         // group workshop list in sub-arrays by date [[{1},{2},{3}], [{4},{5}], [{6}]]
-        const workshopsFirst = addNullsEnd(workshopsList.reduce((acc, cur, index, array) => index < 1 || cur === null || workshopsList[index - 1] === null
+        const workshopsFirst = (0, addNulls_1.addNullsEnd)(workshopsList.reduce((acc, cur, index, array) => index < 1 || cur === null || workshopsList[index - 1] === null
             ? [...acc, cur]
             : cur.date.toString().slice(0, 11) ===
                 workshopsList[index - 1].date.toString().slice(0, 11)
@@ -87,7 +58,7 @@ recordRouter.get("/", (req, res) => __awaiter(void 0, void 0, void 0, function* 
                 : [...acc, cur], []));
         const workshops = workshopsFirst.map((item) => item ? (Array.isArray(item) ? item : [item]) : null);
         // reflections
-        const reflections = addNulls(studentRecords.reduce((acc, cur) => cur.type === "reflection"
+        const reflections = (0, addNulls_1.addNulls)(studentRecords.reduce((acc, cur) => cur.type === "reflection"
             ? [
                 ...acc,
                 {
@@ -99,7 +70,7 @@ recordRouter.get("/", (req, res) => __awaiter(void 0, void 0, void 0, function* 
             ]
             : acc, []), studentRecords[0].startdate);
         // feedback
-        const feedbackList = addNulls(studentRecords.reduce((acc, cur) => cur.type === "feedback"
+        const feedbackList = (0, addNulls_1.addNulls)(studentRecords.reduce((acc, cur) => cur.type === "feedback"
             ? [
                 ...acc,
                 {
@@ -118,7 +89,7 @@ recordRouter.get("/", (req, res) => __awaiter(void 0, void 0, void 0, function* 
                 array[index - 1].date.toString().slice(0, 11)
                 ? [...acc.slice(0, acc.length - 1), [...acc.slice(-1), cur]]
                 : [...acc, cur], []);
-        const feedback = addNullsEnd(feedbackUnsort.map((item) => item
+        const feedback = (0, addNulls_1.addNullsEnd)(feedbackUnsort.map((item) => item
             ? Array.isArray(item)
                 ? item[0].timeOfDay === "morning"
                     ? item
@@ -128,7 +99,7 @@ recordRouter.get("/", (req, res) => __awaiter(void 0, void 0, void 0, function* 
                     : [null, item]
             : [null, null]));
         // const recaps
-        const recaps = addNullsEnd(addNulls(studentRecords.reduce(listOfType_1.listOfType, []), studentRecords[0].startdate));
+        const recaps = (0, addNulls_1.addNullsEnd)((0, addNulls_1.addNulls)(studentRecords.reduce(listOfType_1.listOfType, []), studentRecords[0].startdate));
         // const attendance
         const attendance = quizzes.map((quiz) => (quiz ? true : false));
         const daysAttended = attendance.reduce((acc, cur) => (cur ? acc + 1 : acc), 0);

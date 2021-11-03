@@ -1,6 +1,7 @@
 var express = require("express");
 var recordRouter = express.Router();
 import { listOfType } from "./../helpers/listOfType";
+import { addNulls, addNullsEnd } from "./../helpers/addNulls";
 
 const {
   getAllStudentRecordsById,
@@ -11,40 +12,6 @@ const {
   getAllStudentsX: any;
   getAllStudentRecordsByIdTypeAndDate: any;
 } = require("../models/records");
-
-function addNulls(array, bootcampStartDate) {
-  // check if the array starts on start date and add actual nulls
-  let resultArray = [];
-  let startDiff = +(
-    Math.round(array[0].date - bootcampStartDate) /
-    (1000 * 60 * 60 * 24)
-  ).toFixed(0);
-  if (startDiff > 0) {
-    resultArray = [...Array(startDiff - 1).fill(null)];
-  }
-  for (let i = 0; i < array.length - 1; i++) {
-    let curr = array[i].date;
-    let next = array[i + 1].date;
-    const diffTime = Math.abs(next - curr);
-    const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
-
-    diffDays > 1
-      ? resultArray.push(array[i], ...Array(diffDays - 1).fill(null))
-      : resultArray.push(array[i]);
-  }
-  let endDiff = 60 - resultArray.length;
-  if (endDiff > 0) {
-    resultArray.push(...Array(endDiff).fill(null));
-  }
-  return resultArray;
-}
-function addNullsEnd(array) {
-  let endDiff = 60 - array.length;
-  if (endDiff > 0) {
-    array = [...array, ...Array(endDiff).fill(null)];
-  }
-  return array;
-}
 
 recordRouter.get("/", async (req: any, res: any) => {
   // loop over all students and bring back records in grouped array by studentID

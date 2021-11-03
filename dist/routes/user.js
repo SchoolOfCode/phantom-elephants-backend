@@ -1,6 +1,8 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
 const { getUserById, getAllUsers, addUser, updateUser, deleteUser, } = require('../models/user');
-var express = require('express');
-var userRouter = express.Router();
+const express = require("express");
+const userRouter = express.Router();
 //     // get user by id
 //    userRouter.get("/:id", async (req:any, res:any) => {
 //     const {id} = req.params.id;

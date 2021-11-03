@@ -10,40 +10,40 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.deleteUser = exports.updateUser = exports.addUser = exports.getAllUsers = exports.getUserById = void 0;
-const { query } = require('../db/index');
+const db = require('../db/index');
 // import interface for models
 //get bootcamp by id
 function getUserById(id) {
     return __awaiter(this, void 0, void 0, function* () {
-        const data = yield query('SELECT * FROM user WHERE id = $1', [id]);
+        const data = yield db.query('SELECT * FROM user WHERE id = $1', [id]);
         return data.rows;
     });
 }
 exports.getUserById = getUserById;
 function getAllUsers() {
     return __awaiter(this, void 0, void 0, function* () {
-        const data = yield query('SELECT * FROM user');
+        const data = yield db.query('SELECT * FROM user');
         return data.rows;
     });
 }
 exports.getAllUsers = getAllUsers;
-function addUser(user) {
+function addUser({ user }) {
     return __awaiter(this, void 0, void 0, function* () {
         const sqlString = `INSERT INTO user (name, bootcamperId, watchList) VALUES ($1,$2,$3) RETURNING *;`;
-        const data = yield query(sqlString, [
+        const data = yield db.query(sqlString, [
             user.name,
             user.bootcamperId,
-            user.watchList
+            user.watchList,
         ]);
-        return data.rows[0].name;
+        return data.rows[0];
     });
 }
 exports.addUser = addUser;
 // need to add table name + insert values into sql string + await query array
-function updateUser(user, id) {
+function updateUser({ user, id, }) {
     return __awaiter(this, void 0, void 0, function* () {
         const sqlString = `UPDATE user  SET name = '$1', watchList='$2' bootcamperId= $3' WHERE id=${id} RETURNING *;`;
-        const data = yield query(sqlString, [
+        const data = yield db.query(sqlString, [
             user.name,
             user.bootcamperId,
             user.watchList,
@@ -52,11 +52,11 @@ function updateUser(user, id) {
     });
 }
 exports.updateUser = updateUser;
-function deleteUser({ id }) {
+function deleteUser(id) {
     return __awaiter(this, void 0, void 0, function* () {
-        const sqlString = `DELETE FROM user WHERE id='${id}' RETURNING *;`;
-        const data = yield query(sqlString);
-        return data.rows[0];
+        const sqlString = `DELETE FROM user WHERE id=$1 RETURNING *;`;
+        const data = yield db.query(sqlString, [id]);
+        return data.rows;
     });
 }
 exports.deleteUser = deleteUser;

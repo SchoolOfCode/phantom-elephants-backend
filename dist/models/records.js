@@ -10,7 +10,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.getStudentDataById = exports.getAllStudentRecords = exports.getStudentRecordById = void 0;
-const students_1 = require("./students");
+const student_1 = require("./student");
 const records_1 = require("../helpers/demeterApi/records");
 const db = require('../db');
 function getStudentRecordById(id) {
@@ -45,7 +45,7 @@ function getStudentRecordById(id) {
 exports.getStudentRecordById = getStudentRecordById;
 function getAllStudentRecords() {
     return __awaiter(this, void 0, void 0, function* () {
-        const students = yield (0, students_1.getAllStudents)();
+        const students = yield (0, student_1.getAllStudents)();
         const records = [];
         for (let i = 0; i < students.length; i++) {
             const singleRecord = yield getStudentRecordById(students[i].id);

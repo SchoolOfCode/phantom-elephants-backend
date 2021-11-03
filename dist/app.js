@@ -2,27 +2,27 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 const express = require("express");
 const Router = express.Router();
-const cors = require('cors');
+const cors = require("cors");
 const bootcamps_1 = require("./routes/bootcamps");
 const records_1 = require("./routes/records");
-// const studentRouter = require('./routes/students')
+const students_1 = require("./routes/students");
 const assignments_1 = require("./routes/assignments");
-const userRouter = require('./routes/user');
+const userRouter = require("./routes/user");
 const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
-app.use(cors({ origin: '*' }));
+app.use(cors({ origin: "*" }));
 // console.log(bootcampRouter);
 // console.log(recordRouter);
 // console.log(assignmentsRouter);
 // console.log(userRouter);
-app.use('/bootcamps', bootcamps_1.default);
-app.use('/records', records_1.default);
-app.use('/assignments', assignments_1.default);
-app.use('/user', userRouter);
-// app.use("/students", studentRouter);
-app.get('/', (req, res) => {
-    res.json({ message: 'Go away, world!' });
+app.use("/bootcamps", bootcamps_1.default);
+app.use("/records", records_1.default);
+app.use("/assignments", assignments_1.default);
+app.use("/user", userRouter);
+app.use("/students", students_1.default);
+app.get("/", (req, res) => {
+    res.json({ message: "Go away, world!" });
 });
 exports.default = app;
 // class App {

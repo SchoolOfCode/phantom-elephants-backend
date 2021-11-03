@@ -1,4 +1,8 @@
-import { IStudentInfo } from '../types/database';
+import { IStudentInfo } from "../types/database";
+import {
+  isValidCsvStudents,
+  csvToStudentObjects,
+} from "./../helpers/CSVchecker/students";
 
 let {
   getStudentById,
@@ -18,13 +22,13 @@ let {
     id: number;
   }) => Promise<any>;
   deleteStudent: (id: string) => Promise<Array<any>>;
-} = require('../models/student');
+} = require("../models/student");
 
-import * as express from 'express';
+import * as express from "express";
 const studentRouter = express.Router();
 
 // get by students id
-studentRouter.get('/:id', async (req, res) => {
+studentRouter.get("/:id", async (req, res) => {
   const { id } = req.params;
   const data = await getStudentById(id);
   res.json({
@@ -35,25 +39,44 @@ studentRouter.get('/:id', async (req, res) => {
 });
 
 // getALL students
-studentRouter.get('/', async (req, res) => {
-  console.log('GET all students');
+studentRouter.get("/", async (req, res) => {
+  console.log("GET all students");
   const data = await getAllStudents();
   res.json({
     success: true,
-    message: 'Here are all students',
+    message: "Here are all students",
     payload: data,
   });
 });
 
 // add student by
-studentRouter.post('/', async (req, res) => {
+studentRouter.post("/", async (req, res) => {
   const { body } = req;
-  const response = await addStudent(body);
-  res.json({
-    success: true,
-    message: 'student added successfully',
-    payload: response,
-  });
+  try {
+    const dataArray = body.map((row) => row.data);
+    if (isValidCsvStudents(dataArray)) {
+      const newStudents = csvToStudentObjects(dataArray);
+      console.log(newStudents);
+      let payload = [];
+      for (let student of newStudents) {
+        const response = await addStudent(student);
+        console.log(response);
+        payload.push(response);
+      }
+      res.json({
+        success: true,
+        message: "all new students added sucesfully!",
+        payload: payload,
+      });
+    }
+  } catch (e) {
+    console.log("invalid upload attempted");
+    res.json({
+      success: true,
+      message:
+        "invalid upload format attempted: Headers must contain name, username and avatar",
+    });
+  }
 });
 
 //  // get by students id
@@ -112,24 +135,24 @@ studentRouter.post('/', async (req, res) => {
 //   });
 // });
 
-studentRouter.put('/', async (req, res) => {
+studentRouter.put("/", async (req, res) => {
   const { body } = req;
   const response = await updateStudent(body);
   res.json({
     success: true,
-    message: 'student updated successfully',
+    message: "student updated successfully",
     payload: response,
   });
 });
 
 // delete student
 
-studentRouter.delete('/:id', async (req, res) => {
+studentRouter.delete("/:id", async (req, res) => {
   const { id } = req.params;
   const data = await deleteStudent(id);
   res.json({
     success: true,
-    message: 'student deleted successfully',
+    message: "student deleted successfully",
     payload: data,
   });
 });

@@ -1,24 +1,25 @@
-import { Idb, IStudentInfo } from '../types/database';
-const db: Idb = require('../db/index');
+import { Idb, IStudentInfo } from "../types/database";
+const db: Idb = require("../db/index");
 // import interface for models
 
 //get student by id
 export async function getStudentById(id: string) {
-  const data = await db.query('SELECT * FROM student WHERE id = $1', [id]);
+  const data = await db.query("SELECT * FROM student WHERE id = $1", [id]);
   return data.rows;
 }
 
 export async function getAllStudents() {
-  const data = await db.query('SELECT * FROM students');
+  const data = await db.query("SELECT * FROM students");
   return data.rows;
 }
 
-export async function addStudent({ student }: { student: IStudentInfo }) {
-  const sqlString = `INSERT INTO student (name, username, bootcampId) VALUES ($1,$2,$3) RETURNING *;`;
+export async function addStudent(student: IStudentInfo) {
+  const sqlString = `INSERT INTO students (name, username, avatar, bootcampid) VALUES ($1,$2,$3,$4) RETURNING *;`;
 
   const data = await db.query(sqlString, [
     student.name,
     student.username,
+    student.avatar,
     student.bootcampId,
   ]);
   return data.rows[0];

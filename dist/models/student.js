@@ -10,29 +10,30 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.deleteStudent = exports.updateStudent = exports.addStudent = exports.getAllStudents = exports.getStudentById = void 0;
-const db = require('../db/index');
+const db = require("../db/index");
 // import interface for models
 //get student by id
 function getStudentById(id) {
     return __awaiter(this, void 0, void 0, function* () {
-        const data = yield db.query('SELECT * FROM student WHERE id = $1', [id]);
+        const data = yield db.query("SELECT * FROM student WHERE id = $1", [id]);
         return data.rows;
     });
 }
 exports.getStudentById = getStudentById;
 function getAllStudents() {
     return __awaiter(this, void 0, void 0, function* () {
-        const data = yield db.query('SELECT * FROM students');
+        const data = yield db.query("SELECT * FROM students");
         return data.rows;
     });
 }
 exports.getAllStudents = getAllStudents;
-function addStudent({ student }) {
+function addStudent(student) {
     return __awaiter(this, void 0, void 0, function* () {
-        const sqlString = `INSERT INTO student (name, username, bootcampId) VALUES ($1,$2,$3) RETURNING *;`;
+        const sqlString = `INSERT INTO students (name, username, avatar, bootcampid) VALUES ($1,$2,$3,$4) RETURNING *;`;
         const data = yield db.query(sqlString, [
             student.name,
             student.username,
+            student.avatar,
             student.bootcampId,
         ]);
         return data.rows[0];

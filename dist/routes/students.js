@@ -9,11 +9,12 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-let { getStudentById, getAllStudents, addStudent, updateStudent, deleteStudent, } = require('../models/student');
+const students_1 = require("./../helpers/CSVchecker/students");
+let { getStudentById, getAllStudents, addStudent, updateStudent, deleteStudent, } = require("../models/student");
 const express = require("express");
 const studentRouter = express.Router();
 // get by students id
-studentRouter.get('/:id', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+studentRouter.get("/:id", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { id } = req.params;
     const data = yield getStudentById(id);
     res.json({
@@ -23,24 +24,44 @@ studentRouter.get('/:id', (req, res) => __awaiter(void 0, void 0, void 0, functi
     });
 }));
 // getALL students
-studentRouter.get('/', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    console.log('GET all students');
+studentRouter.get("/", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    console.log("GET all students");
     const data = yield getAllStudents();
     res.json({
         success: true,
-        message: 'Here are all students',
+        message: "Here are all students",
         payload: data,
     });
 }));
 // add student by
-studentRouter.post('/', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+studentRouter.post("/", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { body } = req;
-    const response = yield addStudent(body);
-    res.json({
-        success: true,
-        message: 'student added successfully',
-        payload: response,
-    });
+    try {
+        const dataArray = body.map((row) => row.data);
+        if ((0, students_1.isValidCsvStudents)(dataArray)) {
+            const newStudents = (0, students_1.csvToStudentObjects)(dataArray);
+            console.log(newStudents);
+            let payload = [];
+            for (let student of newStudents) {
+                const response = yield addStudent(student);
+                console.log(response);
+                payload.push(response);
+            }
+            res.json({
+                success: true,
+                message: newStudents.map((student) => `${student.name}, `).toString() +
+                    "added succesfully",
+                payload: payload,
+            });
+        }
+    }
+    catch (e) {
+        console.log("invalid upload attempted");
+        res.json({
+            success: true,
+            message: "invalid upload format attempted: Headers must contain name, username and avatar",
+        });
+    }
 }));
 //  // get by students id
 // studentRouter.get("/:id", async (req:any, res:any) => {
@@ -91,22 +112,22 @@ studentRouter.post('/', (req, res) => __awaiter(void 0, void 0, void 0, function
 //     payload: data,
 //   });
 // });
-studentRouter.put('/', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+studentRouter.put("/", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { body } = req;
     const response = yield updateStudent(body);
     res.json({
         success: true,
-        message: 'student updated successfully',
+        message: "student updated successfully",
         payload: response,
     });
 }));
 // delete student
-studentRouter.delete('/:id', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+studentRouter.delete("/:id", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { id } = req.params;
     const data = yield deleteStudent(id);
     res.json({
         success: true,
-        message: 'student deleted successfully',
+        message: "student deleted successfully",
         payload: data,
     });
 }));

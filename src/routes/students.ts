@@ -1,26 +1,32 @@
+import { IStudentInfo } from '../types/database';
+
 let {
-  getStudentsById,
+  getStudentById,
   getAllStudents,
   addStudent,
   updateStudent,
   deleteStudent,
 }: {
-  getStudentsById: any;
-  getAllStudents: any;
-  addStudent: any;
-  updateStudent: any;
-  deleteStudent: any;
+  getStudentById: (id: string) => Promise<Array<any>>;
+  getAllStudents: () => Promise<Array<any>>;
+  addStudent: ({ student }: { student: IStudentInfo }) => Promise<any>;
+  updateStudent: ({
+    student,
+    id,
+  }: {
+    student: IStudentInfo;
+    id: number;
+  }) => Promise<any>;
+  deleteStudent: (id: string) => Promise<Array<any>>;
 } = require('../models/student');
 
-const { updateStudentComments } = require('../models/studentcomments');
-
-var express = require('express');
-var studentRouter = express.Router();
+import * as express from 'express';
+const studentRouter = express.Router();
 
 // get by students id
-studentRouter.get('/:id', async (req: any, res: any) => {
+studentRouter.get('/:id', async (req, res) => {
   const { id } = req.params;
-  const data = await getStudentsById(id);
+  const data = await getStudentById(id);
   res.json({
     success: true,
     message: `Search result for student with id: ${id}`,
@@ -29,7 +35,7 @@ studentRouter.get('/:id', async (req: any, res: any) => {
 });
 
 // getALL students
-studentRouter.get('/', async (req: any, res: any) => {
+studentRouter.get('/', async (req, res) => {
   console.log('GET all students');
   const data = await getAllStudents();
   res.json({
@@ -49,9 +55,6 @@ studentRouter.post('/', async (req, res) => {
     payload: response,
   });
 });
-
-var express = require('express');
-var studentRouter = express.Router();
 
 //  // get by students id
 // studentRouter.get("/:id", async (req:any, res:any) => {
@@ -121,8 +124,9 @@ studentRouter.put('/', async (req, res) => {
 
 // delete student
 
-studentRouter.delete('/', async (req, res) => {
-  const data = await deleteStudent;
+studentRouter.delete('/:id', async (req, res) => {
+  const { id } = req.params;
+  const data = await deleteStudent(id);
   res.json({
     success: true,
     message: 'student deleted successfully',
@@ -130,7 +134,7 @@ studentRouter.delete('/', async (req, res) => {
   });
 });
 
-module.exports = studentRouter;
+export default studentRouter;
 // //Update Student Comments
 
 // studentRouter.put("/", async (req,res) => {
@@ -142,5 +146,3 @@ module.exports = studentRouter;
 //     payload: response,
 //   });
 // });
-
-export default studentRouter;

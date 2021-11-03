@@ -9,14 +9,13 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-let { getStudentsById, getAllStudents, addStudent, updateStudent, deleteStudent, } = require('../models/student');
-const { updateStudentComments } = require('../models/studentcomments');
-var express = require('express');
-var studentRouter = express.Router();
+let { getStudentById, getAllStudents, addStudent, updateStudent, deleteStudent, } = require('../models/student');
+const express = require("express");
+const studentRouter = express.Router();
 // get by students id
 studentRouter.get('/:id', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { id } = req.params;
-    const data = yield getStudentsById(id);
+    const data = yield getStudentById(id);
     res.json({
         success: true,
         message: `Search result for student with id: ${id}`,
@@ -43,8 +42,6 @@ studentRouter.post('/', (req, res) => __awaiter(void 0, void 0, void 0, function
         payload: response,
     });
 }));
-var express = require('express');
-var studentRouter = express.Router();
 //  // get by students id
 // studentRouter.get("/:id", async (req:any, res:any) => {
 //     const { id } = req.params;
@@ -104,15 +101,16 @@ studentRouter.put('/', (req, res) => __awaiter(void 0, void 0, void 0, function*
     });
 }));
 // delete student
-studentRouter.delete('/', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const data = yield deleteStudent;
+studentRouter.delete('/:id', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const { id } = req.params;
+    const data = yield deleteStudent(id);
     res.json({
         success: true,
         message: 'student deleted successfully',
         payload: data,
     });
 }));
-module.exports = studentRouter;
+exports.default = studentRouter;
 // //Update Student Comments
 // studentRouter.put("/", async (req,res) => {
 //   const { body } = req;
@@ -123,5 +121,4 @@ module.exports = studentRouter;
 //     payload: response,
 //   });
 // });
-exports.default = studentRouter;
 //# sourceMappingURL=students.js.map

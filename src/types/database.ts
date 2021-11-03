@@ -8,12 +8,13 @@ export interface Idb {
   ) => QueryResult<any>;
 }
 
-interface IStudentInfo {
+export interface IStudentInfo {
   id: number | string;
   name: string;
   email: string;
   username: string;
   avatar: string;
+  bootcampId: number | string;
 }
 
 export interface IScoredAssignment {

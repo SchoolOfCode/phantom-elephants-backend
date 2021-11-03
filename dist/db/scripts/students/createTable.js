@@ -25,6 +25,7 @@ function createTable() {
     id SERIAL PRIMARY KEY,
     name TEXT,
     username TEXT,
+    email TEXT,
     avatar TEXT,
     bootcampid INTEGER,
     

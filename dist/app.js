@@ -3,10 +3,10 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const express = require("express");
 const Router = express.Router();
 const cors = require('cors');
-const bootcampRouter = require('./routes/bootcamps');
-const recordRouter = require('./routes/records');
+const bootcamps_1 = require("./routes/bootcamps");
+const records_1 = require("./routes/records");
 // const studentRouter = require('./routes/students')
-const assignmentsRouter = require('./routes/assignments');
+const assignments_1 = require("./routes/assignments");
 const userRouter = require('./routes/user');
 const app = express();
 app.use(express.json());
@@ -16,9 +16,9 @@ app.use(cors({ origin: '*' }));
 // console.log(recordRouter);
 // console.log(assignmentsRouter);
 // console.log(userRouter);
-app.use('/bootcamps', bootcampRouter);
-app.use('/records', recordRouter);
-app.use('/assignments', assignmentsRouter);
+app.use('/bootcamps', bootcamps_1.default);
+app.use('/records', records_1.default);
+app.use('/assignments', assignments_1.default);
 app.use('/user', userRouter);
 // app.use('/students',studentRouter);
 app.get('/', (req, res) => {

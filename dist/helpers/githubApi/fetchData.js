@@ -9,7 +9,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.fetchCheckRunsFromCommit = exports.fetchRepos = void 0;
+exports.fetchCheckRunsFromCommit = exports.fetchCommitsFromRepo = exports.fetchRepos = void 0;
 const axios = require('axios').default;
 const url = 'https://api.github.com';
 const repositoryOwner = 'SchoolOfCode';
@@ -26,6 +26,16 @@ function fetchRepos() {
     });
 }
 exports.fetchRepos = fetchRepos;
+function fetchCommitsFromRepo(commitsUrl) {
+    return __awaiter(this, void 0, void 0, function* () {
+        const response = yield axios.get(commitsUrl, {
+            method: 'GET',
+            headers: { Authorization: authString },
+        });
+        return response.data.map((item) => item.commit);
+    });
+}
+exports.fetchCommitsFromRepo = fetchCommitsFromRepo;
 function fetchCheckRunsFromCommit(repoName, commitRef) {
     return __awaiter(this, void 0, void 0, function* () {
         const requestUrl = `${url}/repos/${repositoryOwner}/${repoName}/commits/${commitRef}/check-runs`;

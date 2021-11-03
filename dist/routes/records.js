@@ -1,3 +1,4 @@
+"use strict";
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
@@ -7,16 +8,28 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
-var express = require('express');
-var recordRouter = express.Router();
-const { getAllStudentRecords } = require('../models/records');
-recordRouter.get("/", (req, res) => __awaiter(this, void 0, void 0, function* () {
-    const data = yield getAllStudentRecords();
+Object.defineProperty(exports, "__esModule", { value: true });
+const express = require("express");
+const recordRouter = express.Router();
+const { getAllStudentRecords, getStudentRecordsByStudentId, } = require('../models/records');
+// GET by student id
+recordRouter.get('students/:id', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const { id } = req.params;
+    const data = yield getStudentRecordsByStudentId(id);
     res.json({
         success: true,
-        message: `Search result for all student records}`,
+        message: `Records for student ${id}`,
         payload: data,
     });
 }));
-module.exports = recordRouter;
+// GET all records
+recordRouter.get('/', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const data = yield getAllStudentRecords();
+    res.json({
+        success: true,
+        message: `Search result for all student records`,
+        payload: data,
+    });
+}));
+exports.default = recordRouter;
 //# sourceMappingURL=records.js.map

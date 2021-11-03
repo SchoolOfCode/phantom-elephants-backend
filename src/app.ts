@@ -3,11 +3,11 @@ import { response } from 'express';
 const Router = express.Router();
 const cors = require('cors');
 
-const bootcampRouter = require('./routes/bootcamps');
-const recordRouter  = require('./routes/records')
+import bootcampRouter from './routes/bootcamps';
+import recordRouter from './routes/records';
 // const studentRouter = require('./routes/students')
-const assignmentsRouter = require('./routes/assignments')
-const userRouter = require('./routes/user')
+import assignmentsRouter from './routes/assignments';
+const userRouter = require('./routes/user');
 
 const app = express();
 
@@ -20,10 +20,9 @@ app.use(cors({ origin: '*' }));
 // console.log(assignmentsRouter);
 // console.log(userRouter);
 
-
 app.use('/bootcamps', bootcampRouter);
 app.use('/records', recordRouter);
-app.use ('/assignments', assignmentsRouter);
+app.use('/assignments', assignmentsRouter);
 app.use('/user', userRouter);
 // app.use('/students',studentRouter);
 

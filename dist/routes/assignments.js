@@ -1,3 +1,4 @@
+"use strict";
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
@@ -7,13 +8,14 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
-const { getAssignmentsById, getAllAssignments, addAssignments, updateAssignments, deleteAssignments } = require('../models/assignments');
-var express = require('express');
-var assignmentsRouter = express.Router();
+Object.defineProperty(exports, "__esModule", { value: true });
+const express = require("express");
+const { getAssignmentById, getAllAssignments, addAssignment, updateAssignment, deleteAssignment, } = require('../models/assignments');
+const assignmentsRouter = express.Router();
 // get assignments by id
-assignmentsRouter.get("/:id", (req, res) => __awaiter(this, void 0, void 0, function* () {
-    const { id } = req.params.id;
-    const data = yield getAssignmentsById(id);
+assignmentsRouter.get('/:id', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const { id } = req.params;
+    const data = yield getAssignmentById(id);
     res.json({
         success: true,
         message: `Search result for specific assignments with id:${id}`,
@@ -21,7 +23,7 @@ assignmentsRouter.get("/:id", (req, res) => __awaiter(this, void 0, void 0, func
     });
 }));
 // get all assignments
-assignmentsRouter.get('/', (req, res) => __awaiter(this, void 0, void 0, function* () {
+assignmentsRouter.get('/', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const data = yield getAllAssignments();
     res.json({
         success: true,
@@ -30,33 +32,34 @@ assignmentsRouter.get('/', (req, res) => __awaiter(this, void 0, void 0, functio
     });
 }));
 // add assignments
-assignmentsRouter.post("/", (req, res) => __awaiter(this, void 0, void 0, function* () {
+assignmentsRouter.post('/', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { body } = req;
-    const response = yield addAssignments(body);
+    const response = yield addAssignment(body);
     res.json({
         success: true,
-        message: "assignments added successfully",
+        message: 'assignments added successfully',
         payload: response,
     });
 }));
 // update assignments
-assignmentsRouter.put("/", (req, res) => __awaiter(this, void 0, void 0, function* () {
+assignmentsRouter.put('/', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { body } = req;
-    const response = yield updateAssignments(body);
+    const response = yield updateAssignment(body);
     res.json({
         success: true,
-        message: "assignments updated successfully",
+        message: 'assignments updated successfully',
         payload: response,
     });
 }));
 //  delete assignments
-assignmentsRouter.delete("/", (req, res) => __awaiter(this, void 0, void 0, function* () {
-    const data = yield deleteAssignments;
+assignmentsRouter.delete('/:id', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const { id } = req.params;
+    const data = yield deleteAssignment(id);
     res.json({
         success: true,
-        message: "assignments deleted successfully",
+        message: 'assignments deleted successfully',
         payload: data,
     });
 }));
-module.exports = assignmentsRouter;
+exports.default = assignmentsRouter;
 //# sourceMappingURL=assignments.js.map

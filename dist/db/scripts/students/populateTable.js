@@ -17,14 +17,15 @@ function populateTable() {
         for (let i = 0; i < data.length; i++) {
             const { students, id } = data[i];
             const sqlQuery = `INSERT INTO students
-       (name, username, avatar,bootcampid) 
-       VALUES ($1, $2, $3, $4)
+       (name, username, email, avatar,bootcampid) 
+       VALUES ($1, $2, $3, $4, $5)
        RETURNING *;`;
             const response = yield db.query(sqlQuery, [
                 students[i].info.name,
                 students[i].info.username,
+                students[i].info.email,
                 students[i].info.avatar,
-                id
+                id,
             ]);
             console.log(response);
         }

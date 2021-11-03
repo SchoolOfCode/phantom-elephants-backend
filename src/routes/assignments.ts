@@ -1,73 +1,82 @@
-const {getAssignmentsById, getAllAssignments, addAssignments, updateAssignments, deleteAssignments} : {
-    getAssignmentsById :any,
-    getAllAssignments :any
-    addAssignments: any;
-    updateAssignments: any;
-    deleteAssignments: any;} = require('../models/assignments')
+import * as express from 'express';
+import { Assignment } from '../types/database';
 
+const {
+  getAssignmentById,
+  getAllAssignments,
+  addAssignment,
+  updateAssignment,
+  deleteAssignment,
+}: {
+  getAssignmentById: (id: string) => Promise<Assignment>;
+  getAllAssignments: () => Promise<Assignment[]>;
+  addAssignment: (assignment: Assignment) => Promise<Assignment>;
+  updateAssignment: ({
+    id,
+    assignment,
+  }: {
+    id: string;
+    assignment: Assignment;
+  }) => Promise<Assignment>;
+  deleteAssignment: (id: string) => Promise<Assignment[]>;
+} = require('../models/assignments');
 
-    var express = require('express');
-    var assignmentsRouter = express.Router();
+const assignmentsRouter = express.Router();
 
-    // get assignments by id
-    
-   assignmentsRouter.get("/:id", async (req:any, res:any) => {
-    const {id} = req.params.id;
-    const data = await getAssignmentsById(id);
-    res.json({
+// get assignments by id
+
+assignmentsRouter.get('/:id', async (req, res) => {
+  const { id } = req.params;
+  const data = await getAssignmentById(id);
+  res.json({
     success: true,
     message: `Search result for specific assignments with id:${id}`,
-    payload: data,});
-   });
-
-
+    payload: data,
+  });
+});
 
 // get all assignments
-assignmentsRouter.get('/', async (req: any, res: any) => {
-    const data = await getAllAssignments();
-    res.json({
-      success: true,
-      message: 'here is all the assignments',
-      payload: data,
-    });
+assignmentsRouter.get('/', async (req, res) => {
+  const data = await getAllAssignments();
+  res.json({
+    success: true,
+    message: 'here is all the assignments',
+    payload: data,
   });
-  
+});
 
 // add assignments
-assignmentsRouter.post("/", async (req, res) => {
-    const { body } = req;
-    const response = await addAssignments(body);
-    res.json({
-      success: true,
-      message: "assignments added successfully",
-      payload: response,
-    });
+assignmentsRouter.post('/', async (req, res) => {
+  const { body } = req;
+  const response = await addAssignment(body);
+  res.json({
+    success: true,
+    message: 'assignments added successfully',
+    payload: response,
   });
-
-
+});
 
 // update assignments
-assignmentsRouter.put("/", async (req,res) => {
-    const { body } = req;
-    const response = await updateAssignments(body)
-    res.json({
-      success: true,
-      message: "assignments updated successfully",
-      payload: response,
-    });
+assignmentsRouter.put('/', async (req, res) => {
+  const { body } = req;
+  const response = await updateAssignment(body);
+  res.json({
+    success: true,
+    message: 'assignments updated successfully',
+    payload: response,
   });
+});
 
+//  delete assignments
 
- //  delete assignments
-
- assignmentsRouter.delete("/", async (req, res) => {
-    const data = await deleteAssignments;
-     res.json({
-      success: true,
-      message: "assignments deleted successfully",
-      payload: data,
-    });
+assignmentsRouter.delete('/:id', async (req, res) => {
+  const { id } = req.params;
+  const data = await deleteAssignment(id);
+  res.json({
+    success: true,
+    message: 'assignments deleted successfully',
+    payload: data,
   });
+});
 
-
-   module.exports = assignmentsRouter;
+export default assignmentsRouter;

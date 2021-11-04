@@ -12,7 +12,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.getStudentDataByBootcampId = exports.getAllStudentRecords = exports.getStudentRecordById = void 0;
 const student_1 = require("./student");
 const records_1 = require("../helpers/demeterApi/records");
-const db = require('../db');
+const db = require("../db");
 function getStudentRecordById(id) {
     return __awaiter(this, void 0, void 0, function* () {
         const studentData = yield getStudentDataByBootcampId(id);
@@ -42,7 +42,18 @@ function getStudentRecordById(id) {
                 daysAttended,
             };
         }
-        return {};
+        // missing work;)
+        function getStudentsWithNoWork(id) {
+            return __awaiter(this, void 0, void 0, function* () {
+                return yield (0, student_1.getStudentById)(id);
+            });
+        }
+        const naughtyStudents = yield getStudentsWithNoWork(id);
+        for (let student of naughtyStudents) {
+            const { id, name, username, avatar, bootcampid } = student;
+            console.log(id, name);
+            return { id, name, username, avatar, bootcampid };
+        }
     });
 }
 exports.getStudentRecordById = getStudentRecordById;

@@ -4,7 +4,7 @@ const db: Idb = require("../db/index");
 
 //get student by id
 export async function getStudentById(id: string) {
-  const data = await db.query("SELECT * FROM student WHERE id = $1", [id]);
+  const data = await db.query("SELECT * FROM students WHERE id = $1", [id]);
   return data.rows;
 }
 

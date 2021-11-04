@@ -15,7 +15,7 @@ const db = require("../db/index");
 //get student by id
 function getStudentById(id) {
     return __awaiter(this, void 0, void 0, function* () {
-        const data = yield db.query("SELECT * FROM student WHERE id = $1", [id]);
+        const data = yield db.query("SELECT * FROM students WHERE id = $1", [id]);
         return data.rows;
     });
 }

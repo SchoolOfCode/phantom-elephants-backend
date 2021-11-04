@@ -14,40 +14,44 @@ import {
 const db: Idb = require('../db');
 
 export async function getStudentRecordById(id) {
-  const studentData = await getStudentDataById(id);
+  const studentData = await getStudentDataByBootcampId(id);
 
-  const date = studentData[0].startdate;
+  if (studentData[0]) {
+    const date = studentData[0].startdate;
 
-  const quizzes = packageQuizzes(studentData, date);
+    const quizzes = packageQuizzes(studentData, date);
 
-  const workshops = packageWorkshops(studentData, date);
+    const workshops = packageWorkshops(studentData, date);
 
-  const reflections = packageReflections(studentData, date);
+    const reflections = packageReflections(studentData, date);
 
-  const feedback = packageFeedback(studentData, date);
+    const feedback = packageFeedback(studentData, date);
 
-  const recaps = packageRecaps(studentData, date);
+    const recaps = packageRecaps(studentData, date);
 
-  const attendance = packageAttendance(quizzes);
+    const attendance = packageAttendance(quizzes);
 
-  const daysAttended = calculateDaysAttended(attendance);
+    const daysAttended = calculateDaysAttended(attendance);
 
-  return {
-    id: studentData[0].id,
-    bootcampId: studentData[0].bootcampid,
-    name: studentData[0].name,
-    username: studentData[0].username,
-    avatar: studentData[0].avatar,
-    region: studentData[0].region,
-    startDate: date,
-    quizzes,
-    recaps,
-    workshops,
-    reflections,
-    feedback,
-    attendance,
-    daysAttended,
-  };
+    return {
+      id: studentData[0].id,
+      bootcampId: studentData[0].bootcampid,
+      name: studentData[0].name,
+      username: studentData[0].username,
+      avatar: studentData[0].avatar,
+      region: studentData[0].region,
+      startDate: date,
+      quizzes,
+      recaps,
+      workshops,
+      reflections,
+      feedback,
+      attendance,
+      daysAttended,
+    };
+  }
+
+  return {};
 }
 
 export async function getAllStudentRecords() {
@@ -62,7 +66,9 @@ export async function getAllStudentRecords() {
   return records;
 }
 
-export async function getStudentDataById(id: string): Promise<Array<any>> {
+export async function getStudentDataByBootcampId(
+  id: string
+): Promise<Array<any>> {
   const data = await db.query(
     `SELECT * FROM bootcamps INNER JOIN students ON bootcamps.id = students.bootcampid INNER JOIN assignments ON students.id = assignments.studentid WHERE students.id = $1 ORDER BY date;`,
     [id]

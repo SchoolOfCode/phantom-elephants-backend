@@ -49,8 +49,7 @@ studentRouter.post("/", (req, res) => __awaiter(void 0, void 0, void 0, function
             }
             res.json({
                 success: true,
-                message: newStudents.map((student) => `${student.name}, `).toString() +
-                    "added succesfully",
+                message: "all new students added sucesfully!",
                 payload: payload,
             });
         }

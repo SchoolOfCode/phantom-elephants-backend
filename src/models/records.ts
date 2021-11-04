@@ -41,6 +41,7 @@ export async function getStudentRecordById(id) {
       avatar: studentData[0].avatar,
       region: studentData[0].region,
       startDate: date,
+      hasWork: true,
       quizzes,
       recaps,
       workshops,
@@ -57,7 +58,7 @@ export async function getStudentRecordById(id) {
   const naughtyStudents = await getStudentsWithNoWork(id);
   for (let student of naughtyStudents) {
     const { id, name, username, avatar, bootcampid } = student;
-    return { id, name, username, avatar, bootcampid };
+    return { id, name, username, avatar, bootcampid, hasWork: false };
   }
 }
 

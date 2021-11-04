@@ -51,7 +51,6 @@ function getStudentRecordById(id) {
         const naughtyStudents = yield getStudentsWithNoWork(id);
         for (let student of naughtyStudents) {
             const { id, name, username, avatar, bootcampid } = student;
-            console.log(id, name);
             return { id, name, username, avatar, bootcampid };
         }
     });

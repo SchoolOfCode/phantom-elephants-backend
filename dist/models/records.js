@@ -33,6 +33,7 @@ function getStudentRecordById(id) {
                 avatar: studentData[0].avatar,
                 region: studentData[0].region,
                 startDate: date,
+                hasWork: true,
                 quizzes,
                 recaps,
                 workshops,
@@ -50,8 +51,8 @@ function getStudentRecordById(id) {
         }
         const naughtyStudents = yield getStudentsWithNoWork(id);
         for (let student of naughtyStudents) {
-            const { id, name, username, avatar, bootcampid } = student;
-            return { id, name, username, avatar, bootcampid };
+            const { id, name, username, avatar, bootcampId, region } = student;
+            return { id, name, username, avatar, bootcampId, hasWork: false, region };
         }
     });
 }

@@ -57,8 +57,8 @@ export async function getStudentRecordById(id) {
   }
   const naughtyStudents = await getStudentsWithNoWork(id);
   for (let student of naughtyStudents) {
-    const { id, name, username, avatar, bootcampid } = student;
-    return { id, name, username, avatar, bootcampid, hasWork: false };
+    const { id, name, username, avatar, bootcampId, region } = student;
+    return { id, name, username, avatar, bootcampId, hasWork: false, region };
   }
 }
 

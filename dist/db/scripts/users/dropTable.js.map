@@ -1,1 +1,0 @@
-{"version":3,"file":"dropTable.js","sourceRoot":"","sources":["../../../../src/db/scripts/users/dropTable.ts"],"names":[],"mappings":";;;;;;;;;;;AAEA,MAAM,EAAE,GAAQ,OAAO,CAAC,aAAa,CAAC,CAAC;AAEvC,SAAe,WAAW;;QACxB,MAAM,QAAQ,GAAG,4BAA4B,CAAC;QAC9C,MAAM,QAAQ,GAAG,MAAM,EAAE,CAAC,KAAK,CAAC,QAAQ,CAAC,CAAC;QAC1C,OAAO,CAAC,GAAG,CAAC,qBAAqB,CAAC,CAAC;IACrC,CAAC;CAAA;AAED,WAAW,EAAE,CAAC"}

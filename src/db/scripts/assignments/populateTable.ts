@@ -6,7 +6,7 @@ import {
   IReflection,
   IStudentWork,
   IStudentObject,
-  ICreateAssignmentListParameters,
+  ICreateAssignmentListParams,
 } from '../../../types/database';
 
 const db: Idb = require('../../index');
@@ -57,7 +57,7 @@ function createAssignmentList({
   recapTask,
   workshops,
   quiz,
-}: ICreateAssignmentListParameters): Array<IScoredAssignment> {
+}: ICreateAssignmentListParams): Array<IScoredAssignment> {
   let assignments: Array<IScoredAssignment>;
 
   if (workshops) {

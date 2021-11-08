@@ -250,7 +250,7 @@ export interface ICheckRun {
 interface IAuthor {
   name: string;
   email: string;
-  date: string;
+  date: any;
 }
 
 interface IVerification {

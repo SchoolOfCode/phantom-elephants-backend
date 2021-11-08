@@ -8,13 +8,11 @@ import {
 
 const axios: AxiosInstance = require('axios').default;
 
-const url: string = 'https://api.github.com';
-const repositoryOwner: string = 'SchoolOfCode';
-const ownerType: string = 'orgs';
-const authString: string = `token ${process.env.GITHUB_API_KEY}`;
+const url = 'https://api.github.com';
+const authString = `token ${process.env.GITHUB_API_KEY}`;
 
 export async function fetchRepos(): Promise<IRepository[]> {
-  const requestUrl = `${url}/${ownerType}/${repositoryOwner}/repos`;
+  const requestUrl = `${url}/${process.env.OWNER_TYPE}/${process.env.REPOSITORY_OWNER}/repos`;
   const response: AxiosResponse<any, any> = await axios.get(requestUrl, {
     method: 'GET',
     headers: { Authorization: authString },
@@ -37,7 +35,7 @@ export async function fetchCheckRunsFromCommit(
   repoName: string,
   commitRef: string
 ): Promise<ICheckRun[]> {
-  const requestUrl = `${url}/repos/${repositoryOwner}/${repoName}/commits/${commitRef}/check-runs`;
+  const requestUrl = `${url}/repos/${process.env.REPOSITORY_OWNER}/${repoName}/commits/${commitRef}/check-runs`;
   const response: AxiosResponse<any, any> = await axios.get(requestUrl, {
     method: 'GET',
     headers: { Authorization: authString },

@@ -5,6 +5,8 @@ import {
   IFeedback,
   IReflection,
   IStudentWork,
+  IStudentObject,
+  ICreateAssignmentListParameters,
 } from '../../../types/database';
 
 const db: Idb = require('../../index');
@@ -20,7 +22,7 @@ async function populateTable() {
   }
 }
 
-async function addStudentWorkToDatabase(student) {
+async function addStudentWorkToDatabase(student: IStudentObject) {
   student.work.forEach(async (day: IStudentWork) => {
     const assignments = createAssignmentList(day);
 
@@ -55,11 +57,7 @@ function createAssignmentList({
   recapTask,
   workshops,
   quiz,
-}: {
-  recapTask: IScoredAssignment | null;
-  workshops: Array<IScoredAssignment>;
-  quiz: IScoredAssignment | null;
-}): Array<IScoredAssignment> {
+}: ICreateAssignmentListParameters): Array<IScoredAssignment> {
   let assignments: Array<IScoredAssignment>;
 
   if (workshops) {
@@ -78,7 +76,7 @@ function createAssignmentList({
 }
 
 async function populateScoredAssignments(
-  student: number,
+  student: string | number,
   date: string,
   assignments: Array<IScoredAssignment>
 ): Promise<string> {
@@ -101,7 +99,7 @@ async function populateScoredAssignments(
 }
 
 async function populateFeedback(
-  student: number,
+  student: string | number,
   date: string,
   feedback: Array<IFeedback>
 ): Promise<string> {
@@ -127,7 +125,7 @@ async function populateFeedback(
 }
 
 async function populateReflection(
-  student: number,
+  student: string | number,
   date: string,
   reflection: IReflection
 ): Promise<string> {

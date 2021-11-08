@@ -1,11 +1,7 @@
-import { QueryResult } from 'pg';
+import { ClientBase } from 'pg';
 
 export interface Idb {
-  query: (
-    text: string,
-    params?: Array<any>,
-    callback?: (err: Error, result: QueryResult<any>) => void
-  ) => QueryResult<any>;
+  query: ClientBase['query'];
 }
 
 export interface IStudentInfo {
@@ -59,7 +55,7 @@ export interface IStudentWork {
   reflection: IReflection;
 }
 
-interface IStudentObject {
+export interface IStudentObject {
   info: IStudentInfo;
   work: Array<IStudentWork>;
 }
@@ -70,6 +66,21 @@ export interface IDataObject {
   region: string;
   startDate: string;
   students: Array<IStudentObject>;
+}
+
+export interface ICreateAssignmentListParams {
+  recapTask: IScoredAssignment | null;
+  workshops: Array<IScoredAssignment>;
+  quiz: IScoredAssignment | null;
+}
+
+export interface IAssignmentModelsParams {
+  id?: string;
+  assignment?: Assignment;
+}
+
+export interface IUser {
+  user: Record<string, any>;
 }
 
 export type Assignment = IScoredAssignment | IReflection | IFeedback;

@@ -1,4 +1,4 @@
-export const addNulls = (array, bootcampStartDate) => {
+export const addNulls = (array: Array<any>, bootcampStartDate): Array<any> => {
   // check if the array starts on start date and add actual nulls
   let resultArray = [];
   let startDiff = +(
@@ -24,7 +24,7 @@ export const addNulls = (array, bootcampStartDate) => {
   }
   return resultArray;
 };
-export const addNullsEnd = (array) => {
+export const addNullsEnd = (array: Array<any>): Array<any> => {
   let endDiff = 60 - array.length;
   if (endDiff > 0) {
     array = [...array, ...Array(endDiff).fill(null)];

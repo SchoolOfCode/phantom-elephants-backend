@@ -1,8 +1,11 @@
-import { listOfType } from "./listOfType";
-import { addNulls, addNullsEnd } from "./addNulls";
+import { listOfType } from './listOfType';
+import { addNulls, addNullsEnd } from './addNulls';
 
-const calcWeek = (curDate, startDate) =>
-  Math.floor(Math.ceil((curDate - startDate) / (1000 * 60 * 60 * 24)) / 5) + 1;
+const calcWeek = (curDate, startDate): number => {
+  return (
+    Math.floor(Math.ceil((curDate - startDate) / (1000 * 60 * 60 * 24)) / 5) + 1
+  );
+};
 
 export function packageQuizzes(records, date) {
   // create a quiz list [{1},{2},{3},{4},{5},{6}...]
@@ -11,7 +14,7 @@ export function packageQuizzes(records, date) {
   return addNulls(
     records.reduce(
       (acc, cur) =>
-        cur.type === "quiz"
+        cur.type === 'quiz'
           ? [
               ...acc,
               {
@@ -36,7 +39,7 @@ export function packageWorkshops(records, date) {
   const workshopsList = addNulls(
     records.reduce(
       (acc, cur) =>
-        cur.type === "workshop"
+        cur.type === 'workshop'
           ? [
               ...acc,
               {
@@ -79,7 +82,7 @@ export function packageReflections(records, date) {
   return addNulls(
     records.reduce(
       (acc, cur) =>
-        cur.type === "reflection"
+        cur.type === 'reflection'
           ? [
               ...acc,
               {
@@ -103,7 +106,7 @@ export function packageFeedback(records, date) {
   const feedbackList = addNulls(
     records.reduce(
       (acc, cur) =>
-        cur.type === "feedback"
+        cur.type === 'feedback'
           ? [
               ...acc,
               {
@@ -139,10 +142,10 @@ export function packageFeedback(records, date) {
     unsortedFeedback.map((item) =>
       item
         ? Array.isArray(item)
-          ? item[0].timeOfDay === "morning"
+          ? item[0].timeOfDay === 'morning'
             ? item
             : [item[1], item[0]]
-          : item.timeOfDay === "morning"
+          : item.timeOfDay === 'morning'
           ? [item, null]
           : [null, item]
         : [null, null]

@@ -1,4 +1,4 @@
-import { Idb, Assignment } from '../types/database';
+import { Idb, Assignment, IAssignmentModelsParams } from '../types/database';
 
 const db: Idb = require('../db/index');
 // import interface for models
@@ -15,9 +15,9 @@ export async function getAllAssignments(): Promise<Assignment[]> {
 }
 
 // need to add table name + insert values + response details
-export async function addAssignment(
-  assignment: Assignment
-): Promise<Assignment> {
+export async function addAssignment({
+  assignment,
+}: IAssignmentModelsParams): Promise<Assignment> {
   const sqlString = `INSERT INTO assignments (studentId, title,type, date) VALUES ($1,$2,$3, $4) RETURNING *;`;
 
   const data = await db.query(sqlString, [
@@ -32,10 +32,7 @@ export async function addAssignment(
 export async function updateAssignment({
   id,
   assignment,
-}: {
-  id: string;
-  assignment: Assignment;
-}): Promise<Assignment> {
+}: IAssignmentModelsParams): Promise<Assignment> {
   const sqlString = `UPDATE assignments SET studentId = '$1', title='$2' type= $3' date= '$4' WHERE' id=$5} RETURNING *;`;
   const data = await db.query(sqlString, [
     assignment.studentId,

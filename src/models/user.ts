@@ -1,4 +1,4 @@
-import { Idb } from '../types/database';
+import { Idb, IUser } from '../types/database';
 const db: Idb = require('../db/index');
 // import interface for models
 
@@ -13,7 +13,7 @@ export async function getAllUsers() {
   return data.rows;
 }
 
-export async function addUser({ user }: { user: Record<string, any> }) {
+export async function addUser({ user }: IUser) {
   const sqlString = `INSERT INTO user (name, bootcamperId, watchList) VALUES ($1,$2,$3) RETURNING *;`;
 
   const data = await db.query(sqlString, [

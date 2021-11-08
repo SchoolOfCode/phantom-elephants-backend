@@ -4,12 +4,6 @@ const {
   addStudentComments,
   deleteStudentComments,
   updateStudentComments,
-}: {
-  getStudentsCommentsById: any;
-  getAllStudentsComments: any;
-  addStudentComments: any;
-  deleteStudentComments: any;
-  updateStudentComments: any;
 } = require('../models/student');
 
 var express = require('express');

@@ -1,6 +1,6 @@
 // INNER joins for tables
-import { Idb } from "../types/database";
-import { getAllStudents, getStudentById } from "./student";
+import { Idb } from '../types/database';
+import { getAllStudents, getStudentById } from './student';
 import {
   packageQuizzes,
   packageWorkshops,
@@ -9,11 +9,11 @@ import {
   packageRecaps,
   packageAttendance,
   calculateDaysAttended,
-} from "../helpers/demeterApi/records";
+} from '../helpers/demeterApi/records';
 
-const db: Idb = require("../db");
+const db: Idb = require('../db');
 
-export async function getStudentRecordById(id) {
+export async function getStudentRecordById(id: string) {
   const studentData = await getStudentDataByBootcampId(id);
 
   if (studentData[0]) {
@@ -52,7 +52,7 @@ export async function getStudentRecordById(id) {
     };
   }
   // missing work;)
-  async function getStudentsWithNoWork(id) {
+  async function getStudentsWithNoWork(id: string) {
     return await getStudentById(id);
   }
   const naughtyStudents = await getStudentsWithNoWork(id);

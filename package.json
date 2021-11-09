@@ -3,8 +3,8 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "node dist/src/index.js",
-    "compile": "tsc && node dist/src/index.js",
+    "start": "node ./dist/src/index.js",
+    "compile": "tsc && node ./dist/src/index.js",
     "test": "jest",
     "dev": "./node_modules/nodemon/bin/nodemon.js -e ts  --exec \"npm run compile\"",
     "postinstall": "tsc",

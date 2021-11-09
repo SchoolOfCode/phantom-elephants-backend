@@ -100,7 +100,7 @@ export interface ITemplateRepository {
   hooks_url: string;
   svn_url: string;
   homepage: string;
-  language: Record<string, number> | null;
+  language: Record<string, number> | string | null;
   forks: number;
   forks_count: number;
   stargazers_count: number;
@@ -122,7 +122,7 @@ export interface IRepository {
   owner: IOwner;
   private: boolean;
   html_url: string;
-  description: string;
+  description: string | null;
   fork: boolean;
   url: string;
   archive_url: string;
@@ -166,8 +166,8 @@ export interface IRepository {
   mirror_url: string;
   hooks_url: string;
   svn_url: string;
-  homepage: string;
-  language: Record<string, number> | null;
+  homepage: string | null;
+  language: Record<string, number> | string | null;
   forks_count: number;
   stargazers_count: number;
   watchers_count: number;
@@ -187,8 +187,16 @@ export interface IRepository {
   pushed_at: string;
   created_at: string;
   updated_at: string;
-  permissions: IRepoPermissions;
-  template_repository: ITemplateRepository;
+  permissions?: IRepoPermissions;
+  template_repository?: ITemplateRepository;
+  license: ILicense;
+  allow_forking?: boolean;
+  forks?: number;
+  open_issues?: number;
+  watchers?: number;
+  temp_clone_token?: string | null;
+  network_count?: number;
+  subscribers_count?: number;
 }
 
 export interface IApp {
@@ -280,4 +288,9 @@ export interface ICommitResponse {
   author: IOwner;
   committer: IOwner;
   parents: Array<Record<string, string>>;
+}
+
+export interface IFailureResponse {
+  message: string;
+  documentation_url: string;
 }

@@ -5,8 +5,10 @@
     "outDir": "dist",
     "sourceMap": true,
     "lib": ["es6", "dom", "dom.iterable"],
-    "types": ["node"]
+    "types": ["node", "jest", "@types/jest"],
+    "typeRoots": ["node_modules/@types"],
+    "moduleResolution": "node"
   },
-  "include": ["src/**/*.ts"],
+  "include": ["src/**/*.ts", "tests/filterData.test.ts", "tests/*.ts"],
   "exclude": ["node_modules"]
 }

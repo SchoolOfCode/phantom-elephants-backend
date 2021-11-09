@@ -1,7 +1,12 @@
 import { fetchRepos, fetchCommitsFromRepo } from './fetchData';
-import { IRepository, ICommit } from '../../types/githubData';
+import {
+  IRepository,
+  ICommit,
+  IFailureResponse,
+  ICommitResponse,
+} from '../../types/githubData';
 
-async function getReposByBootcamp(
+export async function getReposByBootcamp(
   bootcampName: string
 ): Promise<IRepository[]> {
   const allRepos = await fetchRepos();
@@ -12,17 +17,24 @@ async function getReposByBootcamp(
   return filteredRepos;
 }
 
-async function getMostRecentCommit(repo: IRepository): Promise<ICommit> {
+export async function getMostRecentCommit(repo: IRepository): Promise<ICommit> {
   const commits = await fetchCommitsFromRepo(repo.commits_url);
 
-  return commits.reduce((mostRecentCommit, currentCommit) => {
-    const dateDifference =
-      currentCommit.committer.date - mostRecentCommit.committer.date;
+  try {
+    return commits.reduce(
+      (mostRecentCommit: ICommit, currentCommit: ICommit): ICommit => {
+        const dateDifference =
+          currentCommit.committer.date - mostRecentCommit.committer.date;
 
-    if (dateDifference > 0) {
-      return currentCommit;
-    } else {
-      return mostRecentCommit;
-    }
-  }, commits[0]);
+        if (dateDifference > 0) {
+          return currentCommit;
+        } else {
+          return mostRecentCommit;
+        }
+      },
+      commits[0]
+    );
+  } catch {
+    return undefined;
+  }
 }

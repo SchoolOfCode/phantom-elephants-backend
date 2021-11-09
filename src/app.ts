@@ -13,7 +13,7 @@ const app = express();
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
-app.use(cors({ origin: '*' }));
+app.use(cors());
 
 // console.log(bootcampRouter);
 // console.log(recordRouter);

@@ -8,7 +8,7 @@
     "test": "jest",
     "dev": "./node_modules/nodemon/bin/nodemon.js -e ts  --exec \"npm run compile\"",
     "postinstall": "tsc",
-    "watch-node": "nodemon r dotenv/config dist/index.js",
+    "watch-node": "nodemon dist/index.js",
     "watch-ts": "tsc -w",
     "deploy": "git add . && git commit -m Heroku && git push heroku master",
     "dbCreateBootcampsTable": "node -r dotenv/config dist/db/scripts/bootcamps/createTable.js",

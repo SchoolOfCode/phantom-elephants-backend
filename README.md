@@ -235,7 +235,7 @@ The records route combines data from /students, /bootcamps, and /assignments, re
 Fullstack developer who plays too many instruments 🎻
 
 ### James Perrett
-Hi! I'm [James](https://github.com/PerrettJ4), I am a full stack Software Engineer with a Masters in mechanical Engingeering. Check out my website!
+Hi! I'm [James](https://github.com/PerrettJ4), I am a full stack Software Engineer with a Masters in mechanical Engingeering. Check out my [website!](https://perrettj4.netlify.app/)
 ### Mohit Sharma
 Mohit, you knows it. 
 

@@ -230,11 +230,9 @@ The records route combines data from /students, /bootcamps, and /assignments, re
 
 ### Juweyriya Abdikadir
 
-### Lizard Morrow
+### [Lizard Morrow](https://github.com/onlyasmalllizard)
 
-// I still need a sentence here!
-
-[My Github Profile](https://github.com/onlyasmalllizard)
+Fullstack developer who plays too many instruments 🎻
 
 ### James Perrett
 

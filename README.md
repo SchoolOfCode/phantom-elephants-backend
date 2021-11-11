@@ -243,4 +243,4 @@ Mohit, you knows it.
 
 Click the link below to exit
 
-[My GitHub Profile](https://github.com/Ratmsunny)
+[Exit](https://github.com/Ratmsunny)

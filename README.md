@@ -236,6 +236,7 @@ The records route combines data from /students, /bootcamps, and /assignments, re
 
 [My Github Profile](https://github.com/onlyasmalllizard)
 
-### James Perrett
+### [James Perrett](https://github.com/PerrettJ4)
+Hi! I'm James, I am a full stack Software Engineer with a MAsters in mechanical Engingeering. Check out my website!
 
 ### Mohit Sharma
